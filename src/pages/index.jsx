@@ -7,7 +7,6 @@ import { Card } from '@/components/Card'
 import { Container } from '@/components/Container'
 import {
   GitHubIcon,
-  InstagramIcon,
   LinkedInIcon,
   WhatsappIcon,
 } from '@/components/SocialIcons'
@@ -22,7 +21,6 @@ import logoCss from '@/images/logos/css3.svg'
 import logoHtml from '@/images/logos/html5.svg'
 import image1 from '@/images/photos/image-1.jpg'
 import image2 from '@/images/photos/image-2.jpg'
-import image3 from '@/images/photos/image-3.jpg'
 import { formatDate } from '@/lib/formatDate'
 import { generateRssFeed } from '@/lib/generateRssFeed'
 import { getAllArticles } from '@/lib/getAllArticles'
