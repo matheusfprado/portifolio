@@ -3,47 +3,48 @@ import Image from 'next/image'
 
 import { Card } from '@/components/Card'
 import { SimpleLayout } from '@/components/SimpleLayout'
-import logoAnimaginary from '@/images/logos/animaginary.svg'
+import logoVercel from '@/images/logos/logoVercel.svg'
 import logoCosmos from '@/images/logos/cosmos.svg'
+import logoPanini from '@/images/logos/logoPanini.svg'
 import logoOpenShuttle from '@/images/logos/open-shuttle.svg'
-import logoPlanetaria from '@/images/logos/planetaria.svg'
+import logoID from '@/images/logos/logoID.svg'
 
 const projects = [
   {
-    name: 'Planetaria',
+    name: 'Idelivery',
     description:
-      'Creating technology to empower civilians to explore space on their own terms.',
-    link: { href: 'http://planetaria.tech', label: 'planetaria.tech' },
-    logo: logoPlanetaria,
+      'Landing page, feita com Next.js, JavaScript, Tailwind, com responsividade',
+    link: { href: 'https://idelivery-static-page.vercel.app/', label: 'idelivery-static-page' },
+    logo: logoID,
   },
   {
-    name: 'Animaginary',
+    name: 'Login',
     description:
-      'High performance web animation library, hand-written in optimized WASM.',
-    link: { href: '#', label: 'github.com' },
-    logo: logoAnimaginary,
+      'Login, feito com Next.js, JavaScript, Tailwind, Firebase',
+    link: { href: 'https://login-project-tau.vercel.app/', label: 'login-project' },
+    logo: logoVercel,
   },
   {
-    name: 'HelioStream',
+    name: 'PaniniWeb - myversion',
     description:
-      'Real-time video streaming library, optimized for interstellar transmission.',
-    link: { href: '#', label: 'github.com' },
-    logo: '',
+      'Minha versão da panini, feito com Next.js, TypeScript, Tailwind',
+    link: { href: 'https://panini-web.vercel.app/', label: 'panini-web' },
+    logo: logoPanini,
   },
-  {
-    name: 'cosmOS',
-    description:
-      'The operating system that powers our Planetaria space shuttles.',
-    link: { href: '#', label: 'github.com' },
-    logo: logoCosmos,
-  },
-  {
-    name: 'OpenShuttle',
-    description:
-      'The schematics for the first rocket I designed that successfully made it to orbit.',
-    link: { href: '#', label: 'github.com' },
-    logo: logoOpenShuttle,
-  },
+  // {
+  //   name: 'cosmOS',
+  //   description:
+  //     'The operating system that powers our Planetaria space shuttles.',
+  //   link: { href: '#', label: 'github.com' },
+  //   logo: logoCosmos,
+  // },
+  // {
+  //   name: 'OpenShuttle',
+  //   description:
+  //     'The schematics for the first rocket I designed that successfully made it to orbit.',
+  //   link: { href: '#', label: 'github.com' },
+  //   logo: logoOpenShuttle,
+  // },
 ]
 
 function LinkIcon(props) {
@@ -63,13 +64,12 @@ export default function Projects() {
       <Head>
         <title>Projetos</title>
         <meta
-          name="description"
-          content="Things I’ve made trying to put my dent in the universe."
+          name=""
+          content="Segue abaixo alguns projetos meus"
         />
       </Head>
       <SimpleLayout
-        title="Things I’ve made trying to put my dent in the universe."
-        intro="I’ve worked on tons of little projects over the years but these are the ones that I’m most proud of. Many of them are open-source, so if you see something that piques your interest, check out the code and contribute if you have ideas for how it can be improved."
+        title="Segue abaixo alguns projetos meus"
       >
         <ul
           role="list"
