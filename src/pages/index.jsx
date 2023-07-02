@@ -260,8 +260,8 @@ export default function Home({ articles }) {
       <Head>
         <title>Matheus Felipe Do Prado - Desenvolvedor Fullstack</title>
         <meta
-          name="description"
-          content="I’m Spencer, a software designer and entrepreneur based in New York City. I’m the founder and CEO of Planetaria, where we develop technologies that empower regular people to explore space on their own terms."
+          name=""
+          content=""
         />
       </Head>
       <Container className="mt-9">
