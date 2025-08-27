@@ -17,13 +17,13 @@ const projects = [
     link: { href: 'https://idelivery-static-page.vercel.app/', label: 'idelivery-static-page' },
     logo: logoID,
   },
-  {
-    name: 'Login',
-    description:
-      'Login, feito com Next.js, JavaScript, Tailwind, Firebase',
-    link: { href: 'https://login-project-tau.vercel.app/', label: 'login-project' },
-    logo: logoVercel,
-  },
+  // {
+  //   name: 'Login',
+  //   description:
+  //     'Login, feito com Next.js, JavaScript, Tailwind, Firebase',
+  //   link: { href: 'https://login-project-tau.vercel.app/', label: 'login-project' },
+  //   logo: logoVercel,
+  // },
   {
     name: 'PaniniWeb - myversion',
     description:
