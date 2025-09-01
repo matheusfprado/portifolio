@@ -4,33 +4,31 @@ import Image from 'next/image'
 import { Card } from '@/components/Card'
 import { SimpleLayout } from '@/components/SimpleLayout'
 import logoVercel from '@/images/logos/logoVercel.svg'
-import logoCosmos from '@/images/logos/cosmos.svg'
 import logoPanini from '@/images/logos/logoPanini.svg'
-import logoOpenShuttle from '@/images/logos/open-shuttle.svg'
 import logoID from '@/images/logos/logoID.svg'
 
 const projects = [
-  {
-    name: 'Idelivery',
-    description:
-      'Landing page, feita com Next.js, JavaScript, Tailwind, com responsividade',
-    link: { href: 'https://idelivery-static-page.vercel.app/', label: 'idelivery-static-page' },
-    logo: logoID,
-  },
   // {
-  //   name: 'Login',
+  //   name: 'Idelivery',
   //   description:
-  //     'Login, feito com Next.js, JavaScript, Tailwind, Firebase',
-  //   link: { href: 'https://login-project-tau.vercel.app/', label: 'login-project' },
-  //   logo: logoVercel,
+  //     'Landing page, feita com Next.js, JavaScript, Tailwind, com responsividade',
+  //   link: { href: 'https://idelivery-static-page.vercel.app/', label: 'idelivery-static-page' },
+  //   logo: logoID,
   // },
   {
-    name: 'PaniniWeb - myversion',
+    name: 'InvestHub',
     description:
-      'Minha versão da panini, feito com Next.js, TypeScript, Tailwind',
-    link: { href: 'https://panini-web.vercel.app/', label: 'panini-web' },
-    logo: logoPanini,
+      'Login e Dashboard de atualização de cryptomoeda, feito com Next.js, TypeScript, Tailwind, Prisma',
+    link: { href: 'https://next-login-two.vercel.app/dashboard', label: 'login-project' },
+    logo: logoVercel,
   },
+  // {
+  //   name: 'PaniniWeb - myversion',
+  //   description:
+  //     'Minha versão da panini, feito com Next.js, TypeScript, Tailwind',
+  //   link: { href: 'https://panini-web.vercel.app/', label: 'panini-web' },
+  //   logo: logoPanini,
+  // },
   // {
   //   name: 'cosmOS',
   //   description:
@@ -81,6 +79,8 @@ export default function Projects() {
                 <Image
                   src={project.logo}
                   alt=""
+                  width={80}
+                  height={80}
                   className="h-8 w-8"
                   unoptimized
                 />
