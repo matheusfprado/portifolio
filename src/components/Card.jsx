@@ -1,6 +1,8 @@
 import Link from 'next/link'
 import clsx from 'clsx'
 
+import { TiltCard } from '@/components/TiltCard'
+
 function ChevronRightIcon(props) {
   return (
     <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" {...props}>
@@ -14,87 +16,127 @@ function ChevronRightIcon(props) {
   )
 }
 
-export function Card({ as: Component = 'div', className, children }) {
+export function Card({ className, children }) {
+  return (
+    <TiltCard className={clsx('group h-full', className)}>
+      <div className="flex h-full flex-col text-slate-700">{children}</div>
+    </TiltCard>
+  )
+}
+
+Card.Link = function CardLink({ children, className, ...props }) {
+  return (
+    <Link
+      {...props}
+      className={clsx(
+        'relative z-10 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.35em] text-orange-500 transition hover:text-orange-700',
+        className
+      )}
+    >
+      <span>{children}</span>
+      <ChevronRightIcon className="h-4 w-4 stroke-current" />
+    </Link>
+  )
+}
+
+Card.Title = function CardTitle({
+  as: Component = 'h3',
+  href,
+  children,
+  className,
+}) {
+  const title = (
+    <Component
+      className={clsx(
+        'text-xl font-semibold leading-tight text-slate-900',
+        className
+      )}
+    >
+      {children}
+    </Component>
+  )
+
+  if (!href) {
+    return title
+  }
+
   return (
     <Component
-      className={clsx(className, 'group relative flex flex-col items-start')}
+      className={clsx(
+        'text-xl font-semibold leading-tight text-slate-900',
+        className
+      )}
+    >
+      <Link
+        href={href}
+        className="relative z-10 transition hover:text-orange-500"
+      >
+        {children}
+      </Link>
+    </Component>
+  )
+}
+
+Card.Description = function CardDescription({ children, className }) {
+  return (
+    <p
+      className={clsx(
+        'mt-4 text-sm leading-relaxed text-slate-600',
+        className
+      )}
     >
       {children}
-    </Component>
+    </p>
   )
 }
 
-Card.Link = function CardLink({ children, ...props }) {
+Card.Skills = function CardSkills({ children, className }) {
   return (
-    <>
-      <div className="absolute -inset-x-4 -inset-y-6 z-0 scale-95 bg-zinc-50 opacity-0 transition group-hover:scale-100 group-hover:opacity-100 dark:bg-zinc-800/50 sm:-inset-x-6 sm:rounded-2xl" />
-      <Link {...props}>
-        <span className="absolute -inset-x-4 -inset-y-6 z-20 sm:-inset-x-6 sm:rounded-2xl" />
-        <span className="relative z-10">{children}</span>
-      </Link>
-    </>
-  )
-}
-
-Card.Title = function CardTitle({ as: Component = 'h2', href, children }) {
-  return (
-    <Component className="text-base font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
-      {href ? <Card.Link href={href}>{children}</Card.Link> : children}
-    </Component>
-  )
-}
-
-Card.Description = function CardDescription({ children }) {
-  return (
-    <p className="relative z-10 mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+    <p
+      className={clsx(
+        'mt-4 text-xs uppercase tracking-[0.35em] text-orange-500',
+        className
+      )}
+    >
       {children}
     </p>
   )
 }
 
-Card.Skills = function CardSkills({ children }) {
-  return (
-    <p className="relative z-10 mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-      {children}
-    </p>
-  )
-}
-
-Card.Cta = function CardCta({ children }) {
+Card.Cta = function CardCta({ children, className }) {
   return (
     <div
-      aria-hidden="true"
-      className="relative z-10 mt-4 flex items-center text-sm font-medium text-teal-500"
+      className={clsx(
+        'mt-6 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.4em] text-orange-500 transition group-hover:text-orange-700',
+        className
+      )}
     >
       {children}
-      <ChevronRightIcon className="ml-1 h-4 w-4 stroke-current" />
+      <ChevronRightIcon className="h-4 w-4 stroke-current" />
     </div>
   )
 }
 
 Card.Eyebrow = function CardEyebrow({
   as: Component = 'p',
-  decorate = false,
   className,
   children,
+  decorate = false,
   ...props
 }) {
   return (
     <Component
       className={clsx(
-        className,
-        'relative z-10 order-first mb-3 flex items-center text-sm text-zinc-400 dark:text-zinc-500',
-        decorate && 'pl-3.5'
+        'flex items-center text-xs uppercase tracking-[0.4em] text-orange-500',
+        className
       )}
       {...props}
     >
       {decorate && (
         <span
-          className="absolute inset-y-0 left-0 flex items-center"
           aria-hidden="true"
-        >
-          <span className="h-4 w-0.5 rounded-full bg-zinc-200 dark:bg-zinc-500" />
-        </span>
+          className="mr-3 inline-flex h-1.5 w-1.5 rounded-full bg-gradient-to-br from-orange-400 to-amber-300"
+        />
       )}
       {children}
     </Component>

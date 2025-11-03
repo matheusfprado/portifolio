@@ -2,38 +2,40 @@ import Link from 'next/link'
 
 import { Container } from '@/components/Container'
 
-function NavLink({ href, children }) {
-  return (
-    <Link
-      href={href}
-      className="transition hover:text-teal-500 dark:hover:text-teal-400"
-    >
-      {children}
-    </Link>
-  )
-}
-
 export function Footer() {
+  const navigation = [
+    { href: '/about', label: 'Sobre' },
+    { href: '/projects', label: 'Projetos' },
+    { href: '/speaking', label: 'Experiência' },
+  ]
+
   return (
-    <footer className="mt-32">
-      <Container.Outer>
-        <div className="border-t border-zinc-100 pb-16 pt-10 dark:border-zinc-700/40">
-          <Container.Inner>
-            <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
-              <div className="flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm font-medium text-zinc-800 dark:text-zinc-200">
-                <NavLink href="/about">Sobre</NavLink>
-                <NavLink href="/projects">Projetos</NavLink>
-                <NavLink href="/speaking">Experiência</NavLink>
-                {/* <NavLink href="/uses">Uses</NavLink> */}
-              </div>
-              <p className="text-sm text-zinc-400 dark:text-zinc-500">
-                &copy; {new Date().getFullYear()} Matheus Prado. All rights
-                reserved.
+    <footer className="relative z-10 mt-32 pb-16">
+      <Container>
+        <div className="overflow-hidden rounded-3xl border border-orange-200/60 bg-white px-8 py-10 shadow-[0_30px_85px_-55px_rgba(249,115,22,0.45)]">
+          <div className="flex flex-col gap-8 text-slate-600 md:flex-row md:items-center md:justify-between">
+            <div>
+              <span className="text-xs uppercase tracking-[0.45em] text-orange-500">
+                vamos construir algo
+              </span>
+              <p className="mt-3 text-2xl font-semibold text-slate-900">
+                &copy; {new Date().getFullYear()} Matheus Prado
               </p>
             </div>
-          </Container.Inner>
+            <div className="flex flex-wrap gap-5 text-sm font-semibold uppercase tracking-[0.3em] text-slate-500">
+              {navigation.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="transition hover:text-orange-600"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          </div>
         </div>
-      </Container.Outer>
+      </Container>
     </footer>
   )
 }

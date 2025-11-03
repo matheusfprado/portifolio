@@ -7,29 +7,25 @@ import { getAllArticles } from '@/lib/getAllArticles'
 
 function Article({ article }) {
   return (
-    <article className="md:grid md:grid-cols-4 md:items-baseline">
-      <Card className="md:col-span-3">
-        <Card.Title href={`/articles/${article.slug}`}>
+    <article>
+      <Card>
+        <Card.Title
+          href={`/articles/${article.slug}`}
+          className="text-2xl font-semibold"
+        >
           {article.title}
         </Card.Title>
         <Card.Eyebrow
           as="time"
           dateTime={article.date}
-          className="md:hidden"
+          className="mt-3"
           decorate
         >
           {formatDate(article.date)}
         </Card.Eyebrow>
         <Card.Description>{article.description}</Card.Description>
-        <Card.Cta>Read article</Card.Cta>
+        <Card.Cta>Ler artigo</Card.Cta>
       </Card>
-      <Card.Eyebrow
-        as="time"
-        dateTime={article.date}
-        className="mt-1 hidden md:block"
-      >
-        {formatDate(article.date)}
-      </Card.Eyebrow>
     </article>
   )
 }
@@ -38,22 +34,20 @@ export default function ArticlesIndex({ articles }) {
   return (
     <>
       <Head>
-        <title>Matheus Felipe Do Prado</title>
+        <title>Artigos - Matheus Prado</title>
         <meta
           name="description"
-          content=""
+          content="Reflexões sobre desenvolvimento, arquitetura e experiências digitais."
         />
       </Head>
       <SimpleLayout
-        title=""
-        intro=""
+        title="Conteúdo para quem vive web moderna."
+        intro="Compartilho experiências sobre arquitetura frontend, back-end escalável, animações 3D e o que aprendo construindo produtos digitais."
       >
-        <div className="md:border-l md:border-zinc-100 md:pl-6 md:dark:border-zinc-700/40">
-          <div className="flex max-w-3xl flex-col space-y-16">
-            {articles.map((article) => (
-              <Article key={article.slug} article={article} />
-            ))}
-          </div>
+        <div className="flex max-w-3xl flex-col space-y-12">
+          {articles.map((article) => (
+            <Article key={article.slug} article={article} />
+          ))}
         </div>
       </SimpleLayout>
     </>

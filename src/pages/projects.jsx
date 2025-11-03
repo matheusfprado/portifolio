@@ -1,48 +1,24 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import Link from 'next/link'
 
 import { Card } from '@/components/Card'
 import { SimpleLayout } from '@/components/SimpleLayout'
-import logoVercel from '@/images/logos/logoVercel.svg'
-import logoPanini from '@/images/logos/logoPanini.svg'
-import logoID from '@/images/logos/logoID.svg'
+
+import LogoINH from '@/images/logos/InvestHub.png'
 
 const projects = [
-  // {
-  //   name: 'Idelivery',
-  //   description:
-  //     'Landing page, feita com Next.js, JavaScript, Tailwind, com responsividade',
-  //   link: { href: 'https://idelivery-static-page.vercel.app/', label: 'idelivery-static-page' },
-  //   logo: logoID,
-  // },
   {
     name: 'InvestHub',
     description:
-      'Login e Dashboard de atualização de cryptomoeda, feito com Next.js, TypeScript, Tailwind, Prisma',
-    link: { href: 'https://next-login-two.vercel.app/dashboard', label: 'login-project' },
-    logo: logoVercel,
+      'Login e dashboard de cripto com dados em tempo real. Experiência focada em onboarding fluido, gráficos dinâmicos e responsividade completa.',
+    link: {
+      href: 'https://next-login-two.vercel.app/dashboard',
+      label: 'Ver demo',
+    },
+    logo: LogoINH,
+    tags: ['Next.js', 'TypeScript', 'Tailwind', 'Prisma'],
   },
-  // {
-  //   name: 'PaniniWeb - myversion',
-  //   description:
-  //     'Minha versão da panini, feito com Next.js, TypeScript, Tailwind',
-  //   link: { href: 'https://panini-web.vercel.app/', label: 'panini-web' },
-  //   logo: logoPanini,
-  // },
-  // {
-  //   name: 'cosmOS',
-  //   description:
-  //     'The operating system that powers our Planetaria space shuttles.',
-  //   link: { href: '#', label: 'github.com' },
-  //   logo: logoCosmos,
-  // },
-  // {
-  //   name: 'OpenShuttle',
-  //   description:
-  //     'The schematics for the first rocket I designed that successfully made it to orbit.',
-  //   link: { href: '#', label: 'github.com' },
-  //   logo: logoOpenShuttle,
-  // },
 ]
 
 function LinkIcon(props) {
@@ -60,40 +36,59 @@ export default function Projects() {
   return (
     <>
       <Head>
-        <title>Projetos</title>
+        <title>Projetos - Matheus Prado</title>
         <meta
-          name=""
-          content="Segue abaixo alguns projetos meus"
+          name="description"
+          content="Seleção de projetos com foco em experiências imersivas, interfaces modernas e entregas consistentes."
         />
       </Head>
       <SimpleLayout
-        title="Segue abaixo alguns projetos meus"
+        title="Projetos que misturam estética, performance e estratégia."
+        intro="Uma curadoria de experiências digitais em que atuei do planejamento ao desenvolvimento. Sempre buscando conectar objetivos de negócio a interfaces cativantes."
       >
         <ul
           role="list"
-          className="grid grid-cols-1 gap-x-12 gap-y-16 sm:grid-cols-2 lg:grid-cols-3"
+          className="grid grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3"
         >
           {projects.map((project) => (
-            <Card as="li" key={project.name}>
-              <div className="relative z-10 flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0">
-                <Image
-                  src={project.logo}
-                  alt=""
-                  width={80}
-                  height={80}
-                  className="h-8 w-8"
-                  unoptimized
-                />
-              </div>
-              <h2 className="mt-6 text-base font-semibold text-zinc-800 dark:text-zinc-100">
-                <Card.Link href={project.link.href}>{project.name}</Card.Link>
-              </h2>
-              <Card.Description>{project.description}</Card.Description>
-              <p className="relative z-10 mt-6 flex text-sm font-medium text-zinc-400 transition group-hover:text-teal-500 dark:text-zinc-200">
-                <LinkIcon className="h-6 w-6 flex-none" />
-                <span className="ml-2">{project.link.label}</span>
-              </p>
-            </Card>
+            <li key={project.name} className="h-full">
+              <Card>
+                <div className="flex items-center gap-4">
+                  <span className="flex items-center justify-center rounded-2xl border border-orange-200/60 bg-white p-2 shadow-sm">
+                    <Image
+                      src={project.logo}
+                      alt={project.name}
+                      className=" w-20 "
+                      unoptimized
+                    />
+                  </span>
+                  <div>
+                    <Card.Title>{project.name}</Card.Title>
+                    <Card.Eyebrow className="mt-1 text-[10px] text-orange-600">
+                      {project.tags.join(' · ')}
+                    </Card.Eyebrow>
+                  </div>
+                </div>
+                <Card.Description>{project.description}</Card.Description>
+                <div className="mt-6 flex flex-wrap gap-2 text-[10px] uppercase tracking-[0.4em] text-orange-600">
+                  {project.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full border border-orange-200/60 bg-white px-3 py-1"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <Link
+                  href={project.link.href}
+                  className="mt-8 inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.35em] text-orange-500 transition hover:text-orange-700"
+                >
+                  <LinkIcon className="h-4 w-4" />
+                  {project.link.label}
+                </Link>
+              </Card>
+            </li>
           ))}
         </ul>
       </SimpleLayout>

@@ -1,255 +1,83 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import Link from 'next/link'
+import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
 
 import { Button } from '@/components/Button'
-import { Card } from '@/components/Card'
 import { Container } from '@/components/Container'
 import {
   GitHubIcon,
   LinkedInIcon,
   WhatsappIcon,
 } from '@/components/SocialIcons'
-import logoAdonis from '@/images/logos/adonisjs.svg'
-import logoReact from '@/images/logos/react.png'
-import logoNext from '@/images/logos/next.svg'
-import logoTailwind from '@/images/logos/tailwind.svg'
-import logoTypescript from '@/images/logos/typescript.svg'
-import logoNodejs from '@/images/logos/nodejs.svg'
-import logoJavascript from '@/images/logos/javascript.svg'
-import logoCss from '@/images/logos/css3.svg'
-import logoHtml from '@/images/logos/html5.svg'
-import image1 from '@/images/photos/image-1.jpg'
-import image2 from '@/images/photos/image-2.jpg'
-import { formatDate } from '@/lib/formatDate'
 import { generateRssFeed } from '@/lib/generateRssFeed'
 import { getAllArticles } from '@/lib/getAllArticles'
 
-function MailIcon(props) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      {...props}
-    >
-      <path
-        d="M2.75 7.75a3 3 0 0 1 3-3h12.5a3 3 0 0 1 3 3v8.5a3 3 0 0 1-3 3H5.75a3 3 0 0 1-3-3v-8.5Z"
-        className="fill-zinc-100 stroke-zinc-400 dark:fill-zinc-100/10 dark:stroke-zinc-500"
-      />
-      <path
-        d="m4 6 6.024 5.479a2.915 2.915 0 0 0 3.952 0L20 6"
-        className="stroke-zinc-400 dark:stroke-zinc-500"
-      />
-    </svg>
-  )
-}
+const stats = [
+  { label: 'Anos de código', value: '3+' },
+  { label: 'Projetos entregues', value: '10+' },
+  { label: 'Cursos intensivos', value: '9' },
+]
 
-function BriefcaseIcon(props) {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      {...props}
-    >
-      <path
-        d="M2.75 9.75a3 3 0 0 1 3-3h12.5a3 3 0 0 1 3 3v8.5a3 3 0 0 1-3 3H5.75a3 3 0 0 1-3-3v-8.5Z"
-        className="fill-zinc-100 stroke-zinc-400 dark:fill-zinc-100/10 dark:stroke-zinc-500"
-      />
-      <path
-        d="M3 14.25h6.249c.484 0 .952-.002 1.316.319l.777.682a.996.996 0 0 0 1.316 0l.777-.682c.364-.32.832-.319 1.316-.319H21M8.75 6.5V4.75a2 2 0 0 1 2-2h2.5a2 2 0 0 1 2 2V6.5"
-        className="stroke-zinc-400 dark:stroke-zinc-500"
-      />
-    </svg>
-  )
-}
+const socialLinks = [
+  {
+    href: 'https://api.whatsapp.com/send?phone=5516996356302',
+    label: 'Whatsapp',
+    icon: WhatsappIcon,
+  },
+  {
+    href: 'https://github.com/matheusfprado',
+    label: 'GitHub',
+    icon: GitHubIcon,
+  },
+  {
+    href: 'https://www.linkedin.com/in/matheus-felipe-267079249/',
+    label: 'LinkedIn',
+    icon: LinkedInIcon,
+  },
+]
 
-function ArrowDownIcon(props) {
-  return (
-    <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" {...props}>
-      <path
-        d="M4.75 8.75 8 12.25m0 0 3.25-3.5M8 12.25v-8.5"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  )
-}
-
-function Article({ article }) {
-  return (
-    <Card as="article">
-      <Card.Title href={`/articles/${article.slug}`}>
-        {article.title}
-      </Card.Title>
-      <Card.Eyebrow as="time" dateTime={article.date} decorate>
-        {formatDate(article.date)}
-      </Card.Eyebrow>
-      <Card.Description>{article.description}</Card.Description>
-      <Card.Cta>Read article</Card.Cta>
-    </Card>
-  )
-}
-
-function SocialLink({ icon: Icon, ...props }) {
-  return (
-    <Link className="group -m-1 p-1" {...props}>
-      <Icon className="h-6 w-6 fill-zinc-500 transition group-hover:fill-zinc-600 dark:fill-zinc-400 dark:group-hover:fill-zinc-300" />
-    </Link>
-  )
-}
-
-function Resume() {
-  let resume = [
-    {
-      title: 'Adonis.js',
-      company: 'Udemy',
-      logo: logoAdonis,
-      start: 'JUN-2023',
-      end: 'JUN-2023'
-      // end: {
-      //   label: 'PRESENT',
-      //   dateTime: new Date().getFullYear(),
-      // },
-    },
-    {
-      title: 'React.js',
-      company: 'Udemy',
-      logo: logoReact,
-      start: 'JAN-2022',
-      end: 'MAR-2022',
-    },
-    {
-      title: 'Next.js',
-      company: 'Udemy',
-      logo: logoNext,
-      start: 'JAN-2022',
-      end: 'MAR-2022',
-    },
-    {
-      title: 'Tailwind CSS',
-      company: 'Udemy',
-      logo: logoTailwind,
-      start: 'JAN-2022',
-      end: 'MAR-2022',
-    },
-    {
-      title: 'Typescript',
-      company: 'Udemy',
-      logo: logoTypescript,
-      start: 'JAN-2022',
-      end: 'MAR-2022',
-    },
-    {
-      title: 'Node.js',
-      company: 'Rockseat',
-      logo: logoNodejs,
-      start: 'SET-2021',
-      end: 'DEZ-2021',
-    },
-    {
-      title: 'JavaScript',
-      company: 'Rockseat',
-      logo: logoJavascript,
-      start: 'SET-2021',
-      end: 'DEZ-2021',
-    },
-    {
-      title: 'CSS3',
-      company: 'Rockseat',
-      logo: logoCss,
-      start: 'SET-2021',
-      end: 'DEZ-2021',
-    },
-    {
-      title: 'HTML5',
-      company: 'Rockseat',
-      logo: logoHtml,
-      start: 'SET-2021',
-      end: 'DEZ-2021',
-    },
+// Componente do efeito de digitação
+function Typewriter() {
+  const texts = [
+    'const user = "Matheus Prado";',
+    'console.log("Criando experiências digitais...");',
+    'function build() { return "Código limpo e performático"; }',
   ]
+  const [text, setText] = useState('')
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [loop, setLoop] = useState(0)
+  const [speed, setSpeed] = useState(100)
+
+  useEffect(() => {
+    const handleTyping = () => {
+      const current = loop % texts.length
+      const fullText = texts[current]
+
+      setText(
+        isDeleting
+          ? fullText.substring(0, text.length - 1)
+          : fullText.substring(0, text.length + 1)
+      )
+
+      setSpeed(isDeleting ? 40 : 100)
+
+      if (!isDeleting && text === fullText) {
+        setTimeout(() => setIsDeleting(true), 1000)
+      } else if (isDeleting && text === '') {
+        setIsDeleting(false)
+        setLoop(loop + 1)
+      }
+    }
+
+    const timer = setTimeout(handleTyping, speed)
+    return () => clearTimeout(timer)
+  }, [text, isDeleting])
 
   return (
-    <div className="rounded-2xl border border-zinc-100 p-6 dark:border-zinc-700/40">
-      <h2 className="flex text-sm font-semibold text-zinc-900 dark:text-zinc-100">
-        <BriefcaseIcon className="h-6 w-6 flex-none" />
-        <span className="ml-3">Competências</span>
-      </h2>
-      <ol className="mt-6 space-y-4">
-        {resume.map((role, roleIndex) => (
-          <li key={roleIndex} className="flex gap-4">
-            <div className="relative mt-1 flex h-10 w-10 flex-none items-center justify-center rounded-full shadow-md shadow-zinc-800/5 ring-1 ring-zinc-900/5 dark:border dark:border-zinc-700/50 dark:bg-zinc-800 dark:ring-0">
-              <Image src={role.logo} alt="" className="h-7 w-7" unoptimized />
-            </div>
-            <dl className="flex flex-auto flex-wrap gap-x-2">
-              <dt className="sr-only">Company</dt>
-              <dd className="w-full flex-none text-sm font-medium text-zinc-900 dark:text-zinc-100">
-                {role.title}
-              </dd>
-              <dt className="sr-only">Role</dt>
-              <dd className="text-xs text-zinc-500 dark:text-zinc-400">
-                {role.company}
-              </dd>
-              <dt className="sr-only">Date</dt>
-              <dd
-                className="ml-auto text-xs text-zinc-400 dark:text-zinc-500"
-                aria-label={`${role.start.label ?? role.start} until ${
-                  role.end.label ?? role.end
-                }`}
-              >
-                <time dateTime={role.start.dateTime ?? role.start}>
-                  {role.start.label ?? role.start}
-                </time>{' '}
-                <span aria-hidden="true">—</span>{' '}
-                <time dateTime={role.end.dateTime ?? role.end}>
-                  {role.end.label ?? role.end}
-                </time>
-              </dd>
-            </dl>
-          </li>
-        ))}
-      </ol>
-      <Button
-        href="https://drive.google.com/file/d/1dQMzfr-6-Uq5NJZeaXlx0eZf7M7VfBY1/view?usp=sharing"
-        variant="secondary"
-        className="group mt-6 w-full"
-      >
-        Download CV
-        <ArrowDownIcon className="h-4 w-4 stroke-zinc-400 transition group-active:stroke-zinc-600 dark:group-hover:stroke-zinc-50 dark:group-active:stroke-zinc-50" />
-      </Button>
-    </div>
-  )
-}
-
-function Photos() {
-  return (
-    <div className="mt-16 sm:mt-20">
-      <div className="flex-wrap justify-center overflow-hidden py-4 sm:gap-8">
-        {[image1, image2].map((image) => (
-          <div
-            key={image.src}
-            className={
-              'relative aspect-[9/10] w-44 overflow-hidden rounded-lg sm:w-72 sm:rounded-2xl'
-            }
-          >
-            <Image
-              src={image}
-              alt=""
-              sizes="(min-width: 640px) 20rem, 11rem"
-              className="relative inset-1 h-full w-full object-cover"
-            />
-          </div>
-        ))}
-      </div>
+    <div className="font-mono text-lg text-orange-700">
+      <span>{text}</span>
+      <span className="border-r-2 border-orange-500 ml-1 animate-pulse" />
     </div>
   )
 }
@@ -258,55 +86,106 @@ export default function Home({ articles }) {
   return (
     <>
       <Head>
-        <title>Matheus Felipe Do Prado - Desenvolvedor Fullstack</title>
+        <title>Matheus Prado — Experiências digitais imersivas</title>
         <meta
-          name=""
-          content=""
+          name="description"
+          content="Construo aplicações web fullstack com foco em interações 3D, alta performance e experiências memoráveis."
         />
       </Head>
-      <Container className="mt-9">
-        <div className="max-w-2xl">
-          <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-            Desenvolvedor Fullstack
-          </h1>
-          <p className="mt-6 text-base text-zinc-600 dark:text-zinc-400">
-            Olá, sou Matheus Felipe do Prado, um desenvolvedor de software
-            apaixonado por tecnologia e inovação. Com uma busca constante por
-            atualização e consistência no mercado, estou sempre empenhado em
-            encontrar as melhores soluções para resolver problemas. Meu objetivo
-            é criar soluções eficientes e impactantes, impulsionando o mundo
-            digital com meu conhecimento e habilidades em desenvolvimento.
-          </p>
-          <div className="mt-6 flex gap-6">
-            <SocialLink
-              href="https://api.whatsapp.com/send?phone=5516996356302"
-              aria-label="Follow on whatsapp"
-              icon={WhatsappIcon}
-            />
-            <SocialLink
-              href="https://github.com"
-              aria-label="Follow on GitHub"
-              icon={GitHubIcon}
-            />
-            <SocialLink
-              href="https://linkedin.com"
-              aria-label="Follow on LinkedIn"
-              icon={LinkedInIcon}
-            />
+
+      {/* HERO */}
+      <section className="relative isolate overflow-hidden pt-24 sm:pt-28">
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,_rgba(253,186,116,0.22),_transparent_45%),radial-gradient(circle_at_bottom_right,_rgba(249,115,22,0.18),_transparent_55%)]" />
+        <Container className="max-w-7xl mx-auto px-6 lg:px-12">
+          <div className="grid items-center gap-20 lg:grid-cols-[1.15fr_1fr]">
+            {/* Texto esquerdo */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
+              className="relative z-10"
+            >
+              <span className="inline-flex items-center gap-2 rounded-full border border-orange-200/60 bg-white px-4 py-2 text-xs uppercase tracking-[0.45em] text-orange-600">
+                Fullstack imersivo
+              </span>
+
+              <h1 className="mt-6 text-5xl font-semibold leading-tight text-slate-900 sm:text-6xl sm:leading-tight">
+                Interfaces com profundidade, performance e histórias que prendem
+                o olhar.
+              </h1>
+
+              <p className="mt-6 max-w-2xl text-lg text-slate-600">
+                Sou Matheus Prado, desenvolvedor fullstack. Transformo conceitos
+                em produtos digitais com animações 3D, arquitetura escalável e
+                foco total na experiência das pessoas.
+              </p>
+
+              <div className="mt-10 flex flex-wrap items-center gap-4">
+                <Button href="/projects" className="px-6">
+                  Ver projetos em destaque
+                </Button>
+                <Button
+                  href="https://drive.google.com/file/d/1dQMzfr-6-Uq5NJZeaXlx0eZf7M7VfBY1/view?usp=sharing"
+                  variant="secondary"
+                  className="px-6"
+                >
+                  Baixar CV
+                </Button>
+              </div>
+
+              <div className="mt-12 flex flex-wrap items-center gap-4">
+                {stats.map((stat) => (
+                  <div
+                    key={stat.label}
+                    className="rounded-full border border-orange-200/60 bg-white px-5 py-3 text-sm shadow-[0_12px_32px_-24px_rgba(249,115,22,0.35)]"
+                  >
+                    <span className="text-2xl font-semibold text-slate-900">
+                      {stat.value}
+                    </span>
+                    <span className="ml-2 text-xs uppercase tracking-[0.3em] text-orange-600">
+                      {stat.label}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-12 flex flex-wrap items-center gap-5 text-slate-500">
+                {socialLinks.map((social) => {
+                  const Icon = social.icon
+                  return (
+                    <Link
+                      key={social.label}
+                      href={social.href}
+                      aria-label={social.label}
+                      className="group flex items-center gap-3 rounded-full border border-orange-200/60 bg-white px-4 py-2 text-sm uppercase tracking-[0.35em] text-slate-500 transition hover:border-orange-400/80 hover:bg-orange-50 hover:text-orange-600"
+                    >
+                      <Icon className="h-5 w-5 text-orange-500 transition group-hover:text-orange-600" />
+                      {social.label}
+                    </Link>
+                  )
+                })}
+              </div>
+            </motion.div>
+
+            {/* Espaço visual direito com efeito de digitação */}
+            <div className="hidden lg:flex items-center justify-center">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
+                className="relative flex items-center justify-center w-full max-w-md h-[380px] rounded-[2rem] overflow-hidden border border-orange-200/60 bg-gradient-to-br from-orange-50 via-white to-orange-100 shadow-[0_0_40px_-15px_rgba(249,115,22,0.25)] p-8"
+              >
+                <div className="absolute inset-0 animate-pulse bg-[radial-gradient(circle_at_30%_30%,rgba(249,115,22,0.1),transparent_60%)]" />
+                <div className="relative z-10 w-full">
+                  <div className="bg-black/90 text-green-400 rounded-xl p-6 font-mono text-sm shadow-inner border border-orange-300/30">
+                    <Typewriter />
+                  </div>
+                </div>
+              </motion.div>
+            </div>
           </div>
-        </div>
-      </Container>
-      {/* <Photos /> */}
-      <Container className="mt-24 md:mt-28">
-        <div className="mx-auto grid max-w-xl grid-cols-1 gap-y-20 lg:max-w-none lg:grid-cols-2">
-          <div className="-mt-20 grid-cols-4 gap-16">
-            <Photos />
-          </div>
-          <div className="space-y-10 lg:pl-16 xl:pl-24">
-            <Resume />
-          </div>
-        </div>
-      </Container>
+        </Container>
+      </section>
     </>
   )
 }
@@ -319,7 +198,7 @@ export async function getStaticProps() {
   return {
     props: {
       articles: (await getAllArticles())
-        .slice(0, 4)
+        .slice(0, 3)
         .map(({ component, ...meta }) => meta),
     },
   }

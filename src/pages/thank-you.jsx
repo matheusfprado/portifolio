@@ -6,15 +6,15 @@ export default function ThankYou() {
   return (
     <>
       <Head>
-        <title>You’re subscribed - Spencer Sharp</title>
+        <title>Obrigado por se inscrever - Matheus Prado</title>
         <meta
           name="description"
-          content="Thanks for subscribing to my newsletter."
+          content="Receba novidades sobre novos projetos e conteúdos imersivos."
         />
       </Head>
       <SimpleLayout
-        title="Thanks for subscribing."
-        intro="I’ll send you an email any time I publish a new blog post, release a new project, or have anything interesting to share that I think you’d want to hear about. You can unsubscribe at any time, no hard feelings."
+        title="Inscrição concluída com sucesso."
+        intro="Eu aviso você sempre que lançar um novo artigo, projeto ou experimento criativo. Enquanto isso, fique à vontade para explorar os projetos e conectar comigo nas redes."
       />
     </>
   )

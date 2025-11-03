@@ -1,108 +1,153 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
-import clsx from 'clsx'
 
+import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
+import { TiltCard } from '@/components/TiltCard'
 import {
   GitHubIcon,
   LinkedInIcon,
+  WhatsappIcon,
 } from '@/components/SocialIcons'
-import Matheus from '@/images/matheus.jpg'
+import Avatar from '@/images/avatar.jpg'
 
-function SocialLink({ className, href, children, icon: Icon }) {
-  return (
-    <li className={clsx(className, 'flex')}>
-      <Link
-        href={href}
-        className="group flex text-sm font-medium text-zinc-800 transition hover:text-teal-500 dark:text-zinc-200 dark:hover:text-teal-500"
-      >
-        <Icon className="h-6 w-6 flex-none fill-zinc-500 transition group-hover:fill-teal-500" />
-        <span className="ml-4">{children}</span>
-      </Link>
-    </li>
-  )
-}
+const socialLinks = [
+  {
+    href: 'https://github.com/matheusfprado',
+    label: 'GitHub',
+    icon: GitHubIcon,
+  },
+  {
+    href: 'https://www.linkedin.com/in/matheus-felipe-267079249/',
+    label: 'LinkedIn',
+    icon: LinkedInIcon,
+  },
+  {
+    href: 'https://api.whatsapp.com/send?phone=5516996356302',
+    label: 'Whatsapp',
+    icon: WhatsappIcon,
+  },
+]
 
-function MailIcon(props) {
-  return (
-    <svg viewBox="0 0 24 24" aria-hidden="true" {...props}>
-      <path
-        fillRule="evenodd"
-        d="M6 5a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h12a3 3 0 0 0 3-3V8a3 3 0 0 0-3-3H6Zm.245 2.187a.75.75 0 0 0-.99 1.126l6.25 5.5a.75.75 0 0 0 .99 0l6.25-5.5a.75.75 0 0 0-.99-1.126L12 12.251 6.245 7.187Z"
-      />
-    </svg>
-  )
-}
+const timeline = [
+  {
+    title: 'Desenvolvedor de software - Albert',
+    period: '2022 · atual',
+    description:
+      'Fullstack focado em produtos digitais de saúde. Lidero evoluções do front com Next.js, design system e arquitetura de componentes reutilizáveis. No back-end, atuo com testes, integrações e monitoração.',
+  },
+  {
+    title: 'Estagiário - Dify Tecnologia',
+    period: '2021 · 2022',
+    description:
+      'Desenvolvimento web com foco em Next.js, React e testes. Apliquei boas práticas, melhorias de performance e suporte na evolução do produto.',
+  },
+]
 
 export default function About() {
   return (
     <>
       <Head>
-        <title>About - Matheus Prado</title>
+        <title>Sobre - Matheus Prado</title>
         <meta
           name="description"
-          content="Olá, me chamo Matheus Prado e sou desenvolvedor Fullstack"
+          content="Histórias, motivações e a bagagem que levo para cada projeto."
         />
       </Head>
-      <Container className="mt-16 sm:mt-32">
-        <div className="grid grid-cols-1 gap-y-16 lg:grid-cols-2 lg:grid-rows-[auto_1fr] lg:gap-y-12">
-          <div className="lg:pl-20">
-            <div className="max-w-xs px-2.5 lg:max-w-none">
-              <Image
-                src={Matheus}
-                alt=""
-                sizes="(min-width: 1024px) 32rem, 20rem"
-                className="aspect-square rotate-3 rounded-2xl bg-zinc-100 object-cover dark:bg-zinc-800"
-              />
-            </div>
-          </div>
-          <div className="lg:order-first lg:row-span-2">
-            <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 sm:text-5xl">
-              Olá, me chamo Matheus Prado e sou desenvolvedor Fullstack
+      <Container className="relative z-10 mt-24 pb-24 sm:mt-32 sm:pb-32">
+        <div className="grid items-start gap-12 lg:grid-cols-[1.15fr_0.85fr]">
+          <div>
+            <span className="text-xs uppercase tracking-[0.4em] text-orange-600">
+              sobre mim
+            </span>
+            <h1 className="mt-4 text-4xl font-semibold text-slate-900 sm:text-5xl">
+              Tecnologia para criar histórias que as pessoas querem revisitar.
             </h1>
-            <div className="mt-6 space-y-7 text-base text-zinc-600 dark:text-zinc-400">
-              <p>
-                Desde pequeno, sempre fui apaixonado por tecnologia e ciência.
-                Iniciei minha jornada na área de TI aos 9 anos, realizando
-                cursos de digitação, manutenção de computadores e redes, além de
-                adquirir conhecimento em sistemas operacionais como Windows e
-                Linux.
-              </p>
-              <p>
-                Embora tenha me desviado um pouco do caminho da tecnologia ao
-                seguir pela ciência, em 2021 decidi retornar à área e comecei a
-                estudar e estagiar em programação. Em 2022, tive a oportunidade
-                de ingressar como desenvolvedor júnior, atuando como fullstack.
-                A cada dia, minha paixão por essa área cresce e vejo um desejo
-                genuíno de desenvolver minha carreira.
-              </p>
+            <p className="mt-6 text-base leading-relaxed text-slate-600">
+              Minha jornada começou cedo com curiosidade por tecnologia. Aos 9
+              anos eu já explorava sistemas, hardware e redes. Depois de
+              flertar com a ciência, voltei de vez para o desenvolvimento em
+              2021 — desde então mergulhei em projetos que pedem visão de
+              produto, código limpo e foco nas pessoas.
+            </p>
+            <p className="mt-4 text-base leading-relaxed text-slate-600">
+              Hoje atuo como desenvolvedor fullstack, entregando interfaces
+              imersivas, integrações confiáveis e experiências que unem design,
+              negócio e tecnologia. Adoro traduzir objetivos estratégicos em
+              soluções que brilham nos detalhes.
+            </p>
+            <div className="mt-10 flex flex-wrap gap-4">
+              <Button href="/projects" className="px-6">
+                Ver projetos
+              </Button>
+              <Button
+                href="mailto:matheusfp.dev@gmail.com"
+                variant="secondary"
+                className="px-6"
+              >
+                Falar por e-mail
+              </Button>
+            </div>
+            <div className="mt-12 grid gap-5 sm:grid-cols-3">
+              {socialLinks.map((link) => {
+                const Icon = link.icon
+                return (
+                  <TiltCard
+                    key={link.label}
+                    className="bg-transparent"
+                    innerClassName="bg-transparent p-0"
+                    overlay={false}
+                  >
+                    <Link
+                      href={link.href}
+                      className="flex h-full items-center justify-between rounded-[1.2rem] border border-orange-200/60 bg-white px-3 py-4 text-xs font-semibold uppercase tracking-[0.35em] text-slate-500 transition hover:border-orange-400/70 hover:bg-orange-50 hover:text-orange-600"
+                    >
+                      {link.label}
+                    </Link>
+                  </TiltCard>
+                )
+              })}
             </div>
           </div>
-          <div className="lg:pl-20">
-            <ul role="list">
-              <SocialLink
-                href="https://github.com/matheusfprado"
-                icon={GitHubIcon}
-                className="mt-4"
-              >
-                Siga no GitHub
-              </SocialLink>
-              <SocialLink
-                href="https://www.linkedin.com/in/matheus-felipe-267079249/"
-                icon={LinkedInIcon}
-                className="mt-4"
-              >
-                Siga no LinkedIn
-              </SocialLink>
-              <SocialLink
-                href="mailto:matheusfp.dev@gmail.com"
-                icon={MailIcon}
-                className="mt-4"
-              >
-                matheusfp.dev@gmail.com
-              </SocialLink>
-            </ul>
+
+          <div className="flex flex-col gap-8">
+            <TiltCard>
+              <div className="flex flex-col items-center gap-6">
+                <div className="relative w-full overflow-hidden rounded-3xl">
+                  <Image
+                    src={Avatar}
+                    alt="Matheus Prado"
+                    className="h-full w-full object-cover"
+                    sizes="(min-width: 1024px) 24rem, 20rem"
+                    priority
+                  />
+                  <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/40 via-transparent" />
+                </div>
+                <div className="text-center text-sm text-slate-600">
+                  Sempre curioso por novas tecnologias, seja criando motion
+                  design, experiências 3D no navegador ou arquitetando APIs
+                  robustas.
+                </div>
+              </div>
+            </TiltCard>
+            <div className="space-y-6">
+              {timeline.map((job) => (
+                <TiltCard key={job.title}>
+                  <div>
+                    <span className="text-xs uppercase tracking-[0.4em] text-orange-600">
+                      {job.period}
+                    </span>
+                    <h2 className="mt-3 text-lg font-semibold text-slate-900">
+                      {job.title}
+                    </h2>
+                    <p className="mt-3 text-sm leading-relaxed text-slate-600">
+                      {job.description}
+                    </p>
+                  </div>
+                </TiltCard>
+              ))}
+            </div>
           </div>
         </div>
       </Container>

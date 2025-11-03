@@ -3,14 +3,16 @@ import clsx from 'clsx'
 
 const variantStyles = {
   primary:
-    'bg-zinc-800 font-semibold text-zinc-100 hover:bg-zinc-700 active:bg-zinc-800 active:text-zinc-100/70 dark:bg-zinc-700 dark:hover:bg-zinc-600 dark:active:bg-zinc-700 dark:active:text-zinc-100/70',
+    'bg-gradient-to-r from-orange-500 via-orange-400 to-amber-300 font-semibold text-slate-900 shadow-[0_22px_46px_-24px_rgba(249,115,22,0.85)] transition-all duration-300 hover:from-orange-400 hover:via-orange-300 hover:to-amber-200 hover:shadow-[0_30px_60px_-28px_rgba(249,115,22,0.6)] active:opacity-95',
   secondary:
-    'bg-zinc-50 font-medium text-zinc-900 hover:bg-zinc-100 active:bg-zinc-100 active:text-zinc-900/60 dark:bg-zinc-800/50 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-zinc-50 dark:active:bg-zinc-800/50 dark:active:text-zinc-50/70',
+    'border border-orange-200/60 bg-white text-orange-600 shadow-[0_18px_45px_-30px_rgba(248,113,113,0.55)] transition-all duration-300 hover:border-orange-300 hover:bg-orange-50 hover:text-orange-700 active:text-orange-600',
+  ghost:
+    'border border-orange-300/60 bg-transparent text-orange-300 hover:bg-orange-500/10 hover:text-white',
 }
 
 export function Button({ variant = 'primary', className, href, ...props }) {
   className = clsx(
-    'inline-flex items-center gap-2 justify-center rounded-md py-2 px-3 text-sm outline-offset-2 transition active:transition-none',
+    'inline-flex h-11 items-center gap-2 justify-center rounded-full px-5 text-sm outline-none transition focus-visible:ring-2 focus-visible:ring-orange-400/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white active:transition-none',
     variantStyles[variant],
     className
   )

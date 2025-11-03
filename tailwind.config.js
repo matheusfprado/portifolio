@@ -4,6 +4,34 @@ module.exports = {
   darkMode: 'class',
   plugins: [require('@tailwindcss/typography')],
   theme: {
+    extend: {
+      backgroundSize: {
+        '200%': '200% 200%',
+      },
+      dropShadow: {
+        glow: '0 0 45px rgba(249,115,22,0.45)',
+      },
+      keyframes: {
+        'gradient-pan': {
+          '0%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+          '100%': { backgroundPosition: '0% 50%' },
+        },
+        'float-slow': {
+          '0%, 100%': { transform: 'translateY(0px)' },
+          '50%': { transform: 'translateY(-12px)' },
+        },
+        shine: {
+          '0%, 100%': { opacity: 0.25 },
+          '50%': { opacity: 0.65 },
+        },
+      },
+      animation: {
+        'gradient-pan': 'gradient-pan 18s ease infinite',
+        'float-slow': 'float-slow 12s ease-in-out infinite',
+        shine: 'shine 6s ease-in-out infinite',
+      },
+    },
     fontSize: {
       xs: ['0.8125rem', { lineHeight: '1.5rem' }],
       sm: ['0.875rem', { lineHeight: '1.5rem' }],
