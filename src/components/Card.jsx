@@ -1,8 +1,6 @@
 import Link from 'next/link'
 import clsx from 'clsx'
 
-import { TiltCard } from '@/components/TiltCard'
-
 function ChevronRightIcon(props) {
   return (
     <svg viewBox="0 0 16 16" fill="none" aria-hidden="true" {...props}>
@@ -18,9 +16,14 @@ function ChevronRightIcon(props) {
 
 export function Card({ className, children }) {
   return (
-    <TiltCard className={clsx('group h-full', className)}>
+    <div
+      className={clsx(
+        'group h-full rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-shadow duration-200 hover:shadow-md',
+        className
+      )}
+    >
       <div className="flex h-full flex-col text-slate-700">{children}</div>
-    </TiltCard>
+    </div>
   )
 }
 
@@ -29,7 +32,7 @@ Card.Link = function CardLink({ children, className, ...props }) {
     <Link
       {...props}
       className={clsx(
-        'relative z-10 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.35em] text-orange-500 transition hover:text-orange-700',
+        'relative z-10 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.35em] text-blue-600 transition hover:text-blue-800',
         className
       )}
     >
@@ -69,7 +72,7 @@ Card.Title = function CardTitle({
     >
       <Link
         href={href}
-        className="relative z-10 transition hover:text-orange-500"
+        className="relative z-10 transition hover:text-blue-600"
       >
         {children}
       </Link>
@@ -80,10 +83,7 @@ Card.Title = function CardTitle({
 Card.Description = function CardDescription({ children, className }) {
   return (
     <p
-      className={clsx(
-        'mt-4 text-sm leading-relaxed text-slate-600',
-        className
-      )}
+      className={clsx('mt-4 text-sm leading-relaxed text-slate-600', className)}
     >
       {children}
     </p>
@@ -94,7 +94,7 @@ Card.Skills = function CardSkills({ children, className }) {
   return (
     <p
       className={clsx(
-        'mt-4 text-xs uppercase tracking-[0.35em] text-orange-500',
+        'mt-4 text-xs uppercase tracking-[0.35em] text-blue-600',
         className
       )}
     >
@@ -107,7 +107,7 @@ Card.Cta = function CardCta({ children, className }) {
   return (
     <div
       className={clsx(
-        'mt-6 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.4em] text-orange-500 transition group-hover:text-orange-700',
+        'mt-6 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.4em] text-blue-600 transition group-hover:text-blue-800',
         className
       )}
     >
@@ -127,7 +127,7 @@ Card.Eyebrow = function CardEyebrow({
   return (
     <Component
       className={clsx(
-        'flex items-center text-xs uppercase tracking-[0.4em] text-orange-500',
+        'flex items-center text-xs uppercase tracking-[0.4em] text-blue-600',
         className
       )}
       {...props}
@@ -135,7 +135,7 @@ Card.Eyebrow = function CardEyebrow({
       {decorate && (
         <span
           aria-hidden="true"
-          className="mr-3 inline-flex h-1.5 w-1.5 rounded-full bg-gradient-to-br from-orange-400 to-amber-300"
+          className="mr-3 inline-flex h-1.5 w-1.5 rounded-full bg-blue-500"
         />
       )}
       {children}

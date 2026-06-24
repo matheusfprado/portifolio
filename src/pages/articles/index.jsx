@@ -42,7 +42,7 @@ export default function ArticlesIndex({ articles }) {
       </Head>
       <SimpleLayout
         title="Conteúdo para quem vive web moderna."
-        intro="Compartilho experiências sobre arquitetura frontend, back-end escalável, animações 3D e o que aprendo construindo produtos digitais."
+        intro="Compartilho experiências sobre arquitetura frontend, back-end escalável e o que aprendo construindo produtos digitais."
       >
         <div className="flex max-w-3xl flex-col space-y-12">
           {articles.map((article) => (

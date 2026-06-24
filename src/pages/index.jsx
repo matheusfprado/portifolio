@@ -3,15 +3,14 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 
-import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
 import {
   GitHubIcon,
   LinkedInIcon,
   WhatsappIcon,
 } from '@/components/SocialIcons'
-import { generateRssFeed } from '@/lib/generateRssFeed'
-import { getAllArticles } from '@/lib/getAllArticles'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 
 const stats = [
   { label: 'Anos de código', value: '3+' },
@@ -19,10 +18,34 @@ const stats = [
   { label: 'Cursos intensivos', value: '9' },
 ]
 
+const strengths = [
+  {
+    title: 'Produto e interface',
+    description:
+      'Fluxos claros, componentes reutilizáveis e atenção aos detalhes que sustentam a experiência.',
+  },
+  {
+    title: 'Front-end performático',
+    description:
+      'Next.js, React e Tailwind aplicados com foco em responsividade, acessibilidade e velocidade.',
+  },
+  {
+    title: 'Entrega ponta a ponta',
+    description:
+      'Do contexto do negócio à interface final, com decisões técnicas objetivas e rastreáveis.',
+  },
+]
+
+const typewriterTexts = [
+  'const developer = "Matheus Prado";',
+  'build({ product, performance, clarity });',
+  'ship("experiências que resolvem problemas");',
+]
+
 const socialLinks = [
   {
     href: 'https://api.whatsapp.com/send?phone=5516996356302',
-    label: 'Whatsapp',
+    label: 'WhatsApp',
     icon: WhatsappIcon,
   },
   {
@@ -37,119 +60,108 @@ const socialLinks = [
   },
 ]
 
-// Componente do efeito de digitação
 function Typewriter() {
-  const texts = [
-    'const user = "Matheus Prado";',
-    'console.log("Criando experiências digitais...");',
-    'function build() { return "Código limpo e performático"; }',
-  ]
   const [text, setText] = useState('')
   const [isDeleting, setIsDeleting] = useState(false)
   const [loop, setLoop] = useState(0)
-  const [speed, setSpeed] = useState(100)
 
   useEffect(() => {
-    const handleTyping = () => {
-      const current = loop % texts.length
-      const fullText = texts[current]
+    const fullText = typewriterTexts[loop % typewriterTexts.length]
+    const isComplete = !isDeleting && text === fullText
+    const isEmpty = isDeleting && text === ''
+    const delay = isComplete ? 1200 : isDeleting ? 35 : 75
 
-      setText(
-        isDeleting
-          ? fullText.substring(0, text.length - 1)
-          : fullText.substring(0, text.length + 1)
-      )
-
-      setSpeed(isDeleting ? 40 : 100)
-
-      if (!isDeleting && text === fullText) {
-        setTimeout(() => setIsDeleting(true), 1000)
-      } else if (isDeleting && text === '') {
-        setIsDeleting(false)
-        setLoop(loop + 1)
+    const timer = setTimeout(() => {
+      if (isComplete) {
+        setIsDeleting(true)
+        return
       }
-    }
 
-    const timer = setTimeout(handleTyping, speed)
+      if (isEmpty) {
+        setIsDeleting(false)
+        setLoop((current) => current + 1)
+        return
+      }
+
+      setText((current) =>
+        isDeleting
+          ? current.slice(0, -1)
+          : fullText.slice(0, current.length + 1)
+      )
+    }, delay)
+
     return () => clearTimeout(timer)
-  }, [text, isDeleting])
+  }, [isDeleting, loop, text])
 
   return (
-    <div className="font-mono text-lg text-orange-700">
+    <div className="font-mono text-sm leading-7 text-emerald-300">
       <span>{text}</span>
-      <span className="border-r-2 border-orange-500 ml-1 animate-pulse" />
+      <span className="ml-1 animate-pulse border-r-2 border-blue-300" />
     </div>
   )
 }
 
-export default function Home({ articles }) {
+export default function Home() {
   return (
     <>
       <Head>
-        <title>Matheus Prado — Experiências digitais imersivas</title>
+        <title>Matheus Prado — Desenvolvimento fullstack</title>
         <meta
           name="description"
-          content="Construo aplicações web fullstack com foco em interações 3D, alta performance e experiências memoráveis."
+          content="Desenvolvedor fullstack focado em produtos digitais claros, performáticos e fáceis de evoluir."
         />
       </Head>
 
-      {/* HERO */}
-      <section className="relative isolate overflow-hidden pt-24 sm:pt-28">
-        <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,_rgba(253,186,116,0.22),_transparent_45%),radial-gradient(circle_at_bottom_right,_rgba(249,115,22,0.18),_transparent_55%)]" />
-        <Container className="max-w-7xl mx-auto px-6 lg:px-12">
-          <div className="grid items-center gap-20 lg:grid-cols-[1.15fr_1fr]">
-            {/* Texto esquerdo */}
+      <section className="relative isolate overflow-hidden pb-8 pt-16 sm:pt-24">
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,_rgba(191,219,254,0.5),_transparent_42%),radial-gradient(circle_at_80%_65%,_rgba(96,165,250,0.14),_transparent_36%)]" />
+        <Container>
+          <div className="grid items-center gap-16 lg:grid-cols-[1.15fr_0.85fr]">
             <motion.div
-              initial={{ opacity: 0, y: 24 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, ease: [0.25, 0.1, 0.25, 1] }}
-              className="relative z-10"
+              transition={{ duration: 0.5, ease: 'easeOut' }}
             >
-              <span className="inline-flex items-center gap-2 rounded-full border border-orange-200/60 bg-white px-4 py-2 text-xs uppercase tracking-[0.45em] text-orange-600">
-                Fullstack imersivo
-              </span>
+              <Badge>Disponível para novos projetos</Badge>
 
-              <h1 className="mt-6 text-5xl font-semibold leading-tight text-slate-900 sm:text-6xl sm:leading-tight">
-                Interfaces com profundidade, performance e histórias que prendem
-                o olhar.
+              <h1 className="mt-6 max-w-3xl text-5xl font-semibold tracking-tight text-slate-950 sm:text-6xl sm:leading-[1.08]">
+                Produtos digitais claros, rápidos e feitos para evoluir.
               </h1>
 
-              <p className="mt-6 max-w-2xl text-lg text-slate-600">
-                Sou Matheus Prado, desenvolvedor fullstack. Transformo conceitos
-                em produtos digitais com animações 3D, arquitetura escalável e
-                foco total na experiência das pessoas.
+              <p className="mt-6 max-w-xl text-lg leading-8 text-slate-600">
+                Sou Matheus Prado, desenvolvedor fullstack. Transformo
+                necessidades reais em interfaces consistentes, arquitetura
+                sustentável e experiências que facilitam a vida de quem usa o
+                produto.
               </p>
 
               <div className="mt-10 flex flex-wrap items-center gap-4">
-                <Button href="/projects" className="px-6">
-                  Ver projetos em destaque
+                <Button asChild className="px-6">
+                  <Link href="/projects">Ver projetos</Link>
                 </Button>
-                <Button
-                  href="https://drive.google.com/file/d/1dQMzfr-6-Uq5NJZeaXlx0eZf7M7VfBY1/view?usp=sharing"
-                  variant="secondary"
-                  className="px-6"
-                >
-                  Baixar CV
+                <Button asChild variant="outline" className="px-6">
+                  <Link href="/matheus-prado-cv.pdf" download>
+                    Baixar CV
+                  </Link>
                 </Button>
               </div>
 
-              <div className="mt-12 flex flex-wrap items-center gap-4">
+              <dl className="mt-12 grid max-w-2xl grid-cols-1 gap-3 sm:grid-cols-3">
                 {stats.map((stat) => (
                   <div
                     key={stat.label}
-                    className="rounded-full border border-orange-200/60 bg-white px-5 py-3 text-sm shadow-[0_12px_32px_-24px_rgba(249,115,22,0.35)]"
+                    className="rounded-2xl border border-slate-200 bg-white/80 px-5 py-4 shadow-sm backdrop-blur"
                   >
-                    <span className="text-2xl font-semibold text-slate-900">
-                      {stat.value}
-                    </span>
-                    <span className="ml-2 text-xs uppercase tracking-[0.3em] text-orange-600">
+                    <dt className="text-[10px] font-medium uppercase tracking-[0.14em] text-slate-500">
                       {stat.label}
-                    </span>
+                    </dt>
+                    <dd className="mt-1 text-2xl font-semibold tracking-tight text-slate-950">
+                      {stat.value}
+                    </dd>
                   </div>
                 ))}
-              </div>
+              </dl>
 
-              <div className="mt-12 flex flex-wrap items-center gap-5 text-slate-500">
+              <div className="mt-10 flex flex-wrap items-center gap-3">
                 {socialLinks.map((social) => {
                   const Icon = social.icon
                   return (
@@ -157,9 +169,9 @@ export default function Home({ articles }) {
                       key={social.label}
                       href={social.href}
                       aria-label={social.label}
-                      className="group flex items-center gap-3 rounded-full border border-orange-200/60 bg-white px-4 py-2 text-sm uppercase tracking-[0.35em] text-slate-500 transition hover:border-orange-400/80 hover:bg-orange-50 hover:text-orange-600"
+                      className="group flex min-h-[44px] items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-xs font-medium text-slate-600 transition hover:border-blue-300 hover:bg-blue-50 hover:text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                     >
-                      <Icon className="h-5 w-5 text-orange-500 transition group-hover:text-orange-600" />
+                      <Icon className="h-4 w-4 text-blue-600" />
                       {social.label}
                     </Link>
                   )
@@ -167,39 +179,91 @@ export default function Home({ articles }) {
               </div>
             </motion.div>
 
-            {/* Espaço visual direito com efeito de digitação */}
-            <div className="hidden lg:flex items-center justify-center">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
-                className="relative flex items-center justify-center w-full max-w-md h-[380px] rounded-[2rem] overflow-hidden border border-orange-200/60 bg-gradient-to-br from-orange-50 via-white to-orange-100 shadow-[0_0_40px_-15px_rgba(249,115,22,0.25)] p-8"
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1, ease: 'easeOut' }}
+              className="relative hidden h-[380px] items-center justify-center overflow-hidden rounded-3xl border border-slate-800 bg-slate-950 p-8 shadow-2xl shadow-slate-950/10 lg:flex"
+            >
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(59,130,246,0.24),transparent_55%)]" />
+              <div className="relative w-full rounded-2xl border border-white/10 bg-black/40 p-6 shadow-inner">
+                <p className="mb-6 text-xs font-medium uppercase tracking-[0.18em] text-slate-400">
+                  Em construção
+                </p>
+                <Typewriter />
+              </div>
+            </motion.div>
+          </div>
+        </Container>
+      </section>
+
+      <section className="py-16 sm:py-24" aria-labelledby="strengths-title">
+        <Container>
+          <div className="grid gap-6 lg:grid-cols-[0.85fr_2fr] lg:items-start">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-700">
+                Como trabalho
+              </p>
+              <h2
+                id="strengths-title"
+                className="mt-3 text-3xl font-semibold tracking-tight text-slate-950"
               >
-                <div className="absolute inset-0 animate-pulse bg-[radial-gradient(circle_at_30%_30%,rgba(249,115,22,0.1),transparent_60%)]" />
-                <div className="relative z-10 w-full">
-                  <div className="bg-black/90 text-green-400 rounded-xl p-6 font-mono text-sm shadow-inner border border-orange-300/30">
-                    <Typewriter />
-                  </div>
-                </div>
-              </motion.div>
+                Técnica a serviço do produto.
+              </h2>
+            </div>
+            <div className="grid gap-4 md:grid-cols-3">
+              {strengths.map((strength, index) => (
+                <article
+                  key={strength.title}
+                  className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-1 hover:border-blue-200 hover:shadow-md"
+                >
+                  <span className="text-sm font-semibold tabular-nums text-blue-600">
+                    0{index + 1}
+                  </span>
+                  <h3 className="mt-8 text-lg font-semibold text-slate-900">
+                    {strength.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">
+                    {strength.description}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      <section className="pb-12 sm:pb-20" aria-labelledby="project-title">
+        <Container>
+          <div className="rounded-3xl border border-slate-800 bg-slate-950 p-8 text-white shadow-xl shadow-slate-950/10 sm:p-12">
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-300">
+              Projeto em destaque
+            </p>
+            <div className="mt-5 flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+              <div className="max-w-2xl">
+                <h2
+                  id="project-title"
+                  className="text-3xl font-semibold tracking-tight sm:text-4xl"
+                >
+                  InvestHub
+                </h2>
+                <p className="mt-4 text-base leading-7 text-slate-300">
+                  Dashboard cripto com onboarding, dados em tempo real e uma
+                  experiência responsiva para acompanhar investimentos com
+                  clareza.
+                </p>
+              </div>
+              <Button
+                asChild
+                variant="outline"
+                className="border-white/20 bg-white text-slate-950 hover:border-blue-200 hover:bg-blue-50"
+              >
+                <Link href="/projects">Ver case completo</Link>
+              </Button>
             </div>
           </div>
         </Container>
       </section>
     </>
   )
-}
-
-export async function getStaticProps() {
-  if (process.env.NODE_ENV === 'production') {
-    await generateRssFeed()
-  }
-
-  return {
-    props: {
-      articles: (await getAllArticles())
-        .slice(0, 3)
-        .map(({ component, ...meta }) => meta),
-    },
-  }
 }

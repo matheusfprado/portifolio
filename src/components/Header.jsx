@@ -44,9 +44,9 @@ function CloseIcon(props) {
 function MobileNavigation() {
   return (
     <Popover className="relative text-slate-900 md:hidden">
-      <Popover.Button className="inline-flex items-center gap-2 rounded-full border border-orange-300/60 bg-white px-4 py-2 text-sm font-medium shadow-sm transition hover:border-orange-400 hover:bg-orange-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-orange-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-white">
+      <Popover.Button className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium shadow-sm transition hover:border-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white">
         Menu
-        <MenuIcon className="h-5 w-5 text-orange-500" />
+        <MenuIcon className="h-5 w-5 text-slate-700" />
       </Popover.Button>
       <Transition.Root>
         <Transition.Child
@@ -69,14 +69,14 @@ function MobileNavigation() {
           leaveFrom="opacity-100 translate-y-0"
           leaveTo="opacity-0 -translate-y-4"
         >
-          <Popover.Panel className="fixed inset-x-6 top-24 z-50 rounded-3xl border border-orange-200/60 bg-white p-6 shadow-[0_32px_90px_-50px_rgba(249,115,22,0.45)]">
+          <Popover.Panel className="fixed inset-x-6 top-20 z-50 rounded-2xl border border-slate-200 bg-white p-6 shadow-xl">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium uppercase tracking-[0.35em] text-orange-600">
+              <span className="text-sm font-medium uppercase tracking-[0.2em] text-slate-500">
                 Navegação
               </span>
               <Popover.Button
                 aria-label="Fechar menu"
-                className="rounded-full border border-orange-200/60 p-2 text-orange-500 transition hover:text-orange-700"
+                className="rounded-lg border border-slate-200 p-2 text-slate-600 transition hover:bg-slate-50 hover:text-slate-950"
               >
                 <CloseIcon className="h-5 w-5" />
               </Popover.Button>
@@ -87,7 +87,7 @@ function MobileNavigation() {
                   key={item.href}
                   as={Link}
                   href={item.href}
-                  className="block rounded-2xl border border-orange-200/60 bg-white px-4 py-3 text-base font-semibold text-slate-600 transition hover:border-orange-400/70 hover:bg-orange-50 hover:text-orange-600"
+                  className="block rounded-xl border border-slate-200 bg-white px-4 py-3 text-base font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-950"
                 >
                   {item.label}
                 </Popover.Button>
@@ -104,11 +104,11 @@ export function Header() {
   const router = useRouter()
 
   return (
-    <header className="relative z-50 pt-10">
+    <header className="relative z-50 border-b border-slate-200 bg-slate-50/90 backdrop-blur">
       <Container>
-        <div className="flex items-center justify-between rounded-full border border-orange-200/60 bg-white px-6 py-4 shadow-[0_26px_80px_-60px_rgba(249,115,22,0.45)]">
+        <div className="flex items-center justify-between py-4">
           <Link href="/" className="flex items-center gap-4">
-            <span className="relative inline-flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-orange-500 via-orange-400 to-amber-200 p-[2px] shadow-[0_0_30px_rgba(249,115,22,0.55)]">
+            <span className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white p-[2px]">
               <Image
                 src={avatarImage}
                 alt="Matheus Prado"
@@ -126,20 +126,20 @@ export function Header() {
               </span>
             </div>
           </Link>
-          <nav className="hidden items-center gap-8 text-sm font-semibold uppercase tracking-[0.24em] text-slate-500 md:flex">
+          <nav className="hidden items-center gap-7 text-sm font-medium text-slate-600 md:flex">
             {navigation.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={clsx(
-                  'relative transition hover:text-orange-500',
-                  router.pathname === item.href && 'text-orange-600'
+                  'relative transition hover:text-slate-950',
+                  router.pathname === item.href && 'text-slate-950'
                 )}
               >
                 <span>{item.label}</span>
                 <span
                   className={clsx(
-                    'pointer-events-none absolute inset-x-0 -bottom-2 h-0.5 origin-center scale-x-0 rounded-full bg-gradient-to-r from-orange-500 via-amber-300 to-orange-200 transition-transform duration-300',
+                    'pointer-events-none absolute inset-x-0 -bottom-2 h-0.5 origin-center scale-x-0 rounded-full bg-slate-900 transition-transform duration-200',
                     router.pathname === item.href ? 'scale-x-100' : ''
                   )}
                 />
@@ -149,7 +149,7 @@ export function Header() {
           <div className="flex items-center gap-3">
             <Button
               href="https://api.whatsapp.com/send?phone=5516996356302"
-              className="hidden md:inline-flex px-6 text-sm font-semibold uppercase tracking-[0.3em]"
+              className="hidden px-6 text-sm font-semibold uppercase tracking-[0.3em] md:inline-flex"
             >
               Contato
             </Button>

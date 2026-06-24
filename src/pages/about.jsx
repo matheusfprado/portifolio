@@ -1,10 +1,8 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import Link from 'next/link'
 
 import { Button } from '@/components/Button'
 import { Container } from '@/components/Container'
-import { TiltCard } from '@/components/TiltCard'
 import {
   GitHubIcon,
   LinkedInIcon,
@@ -32,16 +30,16 @@ const socialLinks = [
 
 const timeline = [
   {
-    title: 'Desenvolvedor de software - Albert',
-    period: '2022 · atual',
+    title: 'Desenvolvedor de software · Albert',
+    period: 'ago/2022 · atual',
     description:
-      'Fullstack focado em produtos digitais de saúde. Lidero evoluções do front com Next.js, design system e arquitetura de componentes reutilizáveis. No back-end, atuo com testes, integrações e monitoração.',
+      'Atuação fullstack em produtos SaaS, com React.js, Next.js, TypeScript, Node.js, SSR, testes automatizados, integrações REST e evolução de aplicações em produção.',
   },
   {
-    title: 'Estagiário - Dify Tecnologia',
-    period: '2021 · 2022',
+    title: 'Estagiário Front-End · Dify Tecnologia',
+    period: 'jan/2021 · jul/2022',
     description:
-      'Desenvolvimento web com foco em Next.js, React e testes. Apliquei boas práticas, melhorias de performance e suporte na evolução do produto.',
+      'Manutenção e evolução de aplicações web com JavaScript, Next.js e Jest, atuando em funcionalidades, correções, performance e experiência do usuário.',
   },
 ]
 
@@ -58,24 +56,30 @@ export default function About() {
       <Container className="relative z-10 mt-24 pb-24 sm:mt-32 sm:pb-32">
         <div className="grid items-start gap-12 lg:grid-cols-[1.15fr_0.85fr]">
           <div>
-            <span className="text-xs uppercase tracking-[0.4em] text-orange-600">
+            <span className="text-xs uppercase tracking-[0.2em] text-blue-700">
               sobre mim
             </span>
             <h1 className="mt-4 text-4xl font-semibold text-slate-900 sm:text-5xl">
               Tecnologia para criar histórias que as pessoas querem revisitar.
             </h1>
             <p className="mt-6 text-base leading-relaxed text-slate-600">
-              Minha jornada começou cedo com curiosidade por tecnologia. Aos 9
-              anos eu já explorava sistemas, hardware e redes. Depois de
-              flertar com a ciência, voltei de vez para o desenvolvimento em
-              2021 — desde então mergulhei em projetos que pedem visão de
-              produto, código limpo e foco nas pessoas.
+              Software Engineer com mais de 4 anos de experiência no
+              desenvolvimento de aplicações web e produtos digitais.
+              Especialista em Front-End com React.js, Next.js e TypeScript,
+              atuando também em integrações e desenvolvimento backend com
+              Node.js.
             </p>
             <p className="mt-4 text-base leading-relaxed text-slate-600">
-              Hoje atuo como desenvolvedor fullstack, entregando interfaces
-              imersivas, integrações confiáveis e experiências que unem design,
-              negócio e tecnologia. Adoro traduzir objetivos estratégicos em
-              soluções que brilham nos detalhes.
+              Experiência na construção de aplicações escaláveis, otimização de
+              performance, SSR, componentização, consumo de APIs, testes
+              automatizados e evolução contínua de produtos SaaS em ambiente de
+              produção.
+            </p>
+            <p className="mt-4 text-base leading-relaxed text-slate-600">
+              Apaixonado por tecnologia, arquitetura frontend e boas práticas de
+              engenharia de software, sempre buscando criar soluções
+              performáticas, intuitivas e que gerem valor real para usuários e
+              negócios.
             </p>
             <div className="mt-10 flex flex-wrap gap-4">
               <Button href="/projects" className="px-6">
@@ -93,26 +97,24 @@ export default function About() {
               {socialLinks.map((link) => {
                 const Icon = link.icon
                 return (
-                  <TiltCard
-                    key={link.label}
-                    className="bg-transparent"
-                    innerClassName="bg-transparent p-0"
-                    overlay={false}
-                  >
-                    <Link
+                  <div key={link.label}>
+                    <a
                       href={link.href}
-                      className="flex h-full items-center justify-between rounded-[1.2rem] border border-orange-200/60 bg-white px-3 py-4 text-xs font-semibold uppercase tracking-[0.35em] text-slate-500 transition hover:border-orange-400/70 hover:bg-orange-50 hover:text-orange-600"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex min-h-[48px] items-center gap-3 rounded-full border border-slate-200 bg-white px-5 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
                     >
+                      <Icon className="h-4 w-4 fill-current" />
                       {link.label}
-                    </Link>
-                  </TiltCard>
+                    </a>
+                  </div>
                 )
               })}
             </div>
           </div>
 
           <div className="flex flex-col gap-8">
-            <TiltCard>
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
               <div className="flex flex-col items-center gap-6">
                 <div className="relative w-full overflow-hidden rounded-3xl">
                   <Image
@@ -126,16 +128,18 @@ export default function About() {
                 </div>
                 <div className="text-center text-sm text-slate-600">
                   Sempre curioso por novas tecnologias, seja criando motion
-                  design, experiências 3D no navegador ou arquitetando APIs
-                  robustas.
+                  design, interfaces web ou arquitetando APIs robustas.
                 </div>
               </div>
-            </TiltCard>
+            </div>
             <div className="space-y-6">
               {timeline.map((job) => (
-                <TiltCard key={job.title}>
+                <div
+                  key={job.title}
+                  className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+                >
                   <div>
-                    <span className="text-xs uppercase tracking-[0.4em] text-orange-600">
+                    <span className="text-xs uppercase tracking-[0.2em] text-blue-700">
                       {job.period}
                     </span>
                     <h2 className="mt-3 text-lg font-semibold text-slate-900">
@@ -145,7 +149,7 @@ export default function About() {
                       {job.description}
                     </p>
                   </div>
-                </TiltCard>
+                </div>
               ))}
             </div>
           </div>
