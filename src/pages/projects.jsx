@@ -2,12 +2,14 @@ import Head from 'next/head'
 import Image from 'next/image'
 
 import { Card } from '@/components/Card'
+import { ParallaxLayer, Reveal } from '@/components/Motion'
 import { SimpleLayout } from '@/components/SimpleLayout'
 import { Badge } from '@/components/ui/badge'
+import { setSsrCache } from '@/lib/cache'
+import { getGitHubRepositoryMap } from '@/lib/github'
+import { getVercelProjectMap } from '@/lib/vercel'
 
 import LogoINH from '@/images/logos/InvestHub.png'
-import AnimeverseImage from '@/images/projects/animeverse.png'
-import FrankTattooImage from '@/images/projects/frank-tattoo.png'
 
 const NEW_PROJECT_WINDOW_IN_DAYS = 30
 
@@ -21,16 +23,20 @@ function isNewProject(addedAt) {
   return Date.now() < expiresAt.getTime()
 }
 
-const projects = [
+const curatedProjects = [
   {
     name: 'InvestHub',
+    featured: true,
+    repository: 'next-login',
+    vercelProject: 'next-login',
     description:
       'Login e dashboard de cripto com dados em tempo real. Experiência focada em onboarding fluido, gráficos dinâmicos e responsividade completa.',
     link: {
       href: 'https://investhub.prado-labs.com/',
       label: 'Ver projeto',
     },
-    logo: LogoINH,
+    logoImage: LogoINH,
+    coverClass: 'bg-[radial-gradient(circle_at_top,_rgba(37,99,235,0.16),_transparent_48%),#f8fafc]',
     tags: ['Next.js', 'TypeScript', 'Tailwind', 'Prisma'],
     role: 'Fullstack',
     highlights: [
@@ -40,14 +46,38 @@ const projects = [
     ],
   },
   {
+    name: 'Luma',
+    repository: 'luma-app',
+    vercelProject: 'luma-app',
+    description:
+      'Planner mobile-first para rotina, tarefas, leitura e playlists, com Supabase, RLS e notificações push.',
+    link: {
+      href: 'https://github.com/matheusfprado/luma-app',
+      label: 'Ver repositório',
+    },
+    logoImage: '/project-logos/luma.png',
+    coverClass: 'bg-[radial-gradient(circle_at_top,_rgba(236,72,153,0.16),_transparent_48%),#fdf2f8]',
+    addedAt: '2026-08-12',
+    role: 'Produto e fullstack',
+    tags: ['Next.js', 'TypeScript', 'Supabase', 'Zod'],
+    highlights: [
+      'Monorepo com pacotes compartilhados',
+      'Supabase com RLS e migrations',
+      'Fluxos mobile-first com rotina e notificações',
+    ],
+  },
+  {
     name: 'Frank Tattoo',
+    repository: 'tattoo-landing',
+    vercelProject: 'tattoo-landing',
     description:
       'Site institucional para estúdio de tatuagem, com identidade visual forte e apresentação direta dos serviços.',
     link: {
       href: 'https://frank-tatto.prado-labs.com/',
       label: 'Ver projeto',
     },
-    image: FrankTattooImage,
+    logoImage: '/project-logos/frank-tattoo.png',
+    coverClass: 'bg-[radial-gradient(circle_at_top,_rgba(244,63,94,0.14),_transparent_48%),#fff7ed]',
     addedAt: '2026-06-24',
     role: 'Web design e desenvolvimento',
     tags: ['Next.js', 'React', 'Tailwind'],
@@ -59,13 +89,16 @@ const projects = [
   },
   {
     name: 'Animeverse',
+    repository: 'anime',
+    vercelProject: 'anime',
     description:
       'Plataforma com identidade visual imersiva para uma comunidade de fãs de anime.',
     link: {
       href: 'https://animeverse.prado-labs.com/',
       label: 'Ver projeto',
     },
-    image: AnimeverseImage,
+    logoImage: '/project-logos/animeverse.png',
+    coverClass: 'bg-[radial-gradient(circle_at_top,_rgba(99,102,241,0.18),_transparent_48%),#eef2ff]',
     addedAt: '2026-06-24',
     role: 'Web design e desenvolvimento',
     tags: ['Next.js', 'React', 'Tailwind'],
@@ -75,7 +108,102 @@ const projects = [
       'Layout responsivo e orientado a conteúdo',
     ],
   },
+  {
+    name: 'Web Scrappin',
+    repository: 'web-scrappin',
+    description:
+      'Ferramenta em Node.js para coletar produtos em marketplaces, ordenar por preço e exportar dados estruturados.',
+    link: {
+      href: 'https://github.com/matheusfprado/web-scrappin',
+      label: 'Ver repositório',
+    },
+    addedAt: '2026-06-24',
+    role: 'Backend e automação',
+    tags: ['Node.js', 'TypeScript', 'Playwright', 'Express'],
+    highlights: [
+      'Scraping com Chromium automatizado',
+      'API HTTP para executar buscas',
+      'Exportação de resultados para Excel',
+    ],
+    logoText: 'Web Scrappin',
+    coverClass: 'bg-[radial-gradient(circle_at_top,_rgba(14,165,233,0.16),_transparent_48%),#f0f9ff]',
+  },
+  {
+    name: 'Infinity Identiface',
+    repository: 'projeto-faceid',
+    vercelProject: 'projeto-faceid',
+    description:
+      'Laboratório multimodal no navegador com reconhecimento facial, áudio, avatares e dashboard em tempo real.',
+    link: {
+      href: 'https://github.com/matheusfprado/projeto-faceid',
+      label: 'Ver repositório',
+    },
+    logoImage: '/project-logos/faceid.ico',
+    coverClass: 'bg-[radial-gradient(circle_at_top,_rgba(168,85,247,0.16),_transparent_48%),#faf5ff]',
+    role: 'IA no navegador',
+    tags: ['Next.js', 'TensorFlow', 'face-api.js', 'Web Audio'],
+    highlights: [
+      'Reconhecimento facial com modelos locais',
+      'Análise de áudio e expressões',
+      'Dashboard com métricas em tempo real',
+    ],
+  },
 ]
+
+function formatDate(date) {
+  if (!date) return null
+
+  return new Intl.DateTimeFormat('pt-BR', {
+    month: 'short',
+    year: 'numeric',
+  }).format(new Date(date))
+}
+
+function ProjectCover({ project }) {
+  if (project.logoImage) {
+    return (
+      <div className={`flex h-full items-center justify-center p-6 ${project.coverClass || 'bg-slate-50'}`}>
+        <ParallaxLayer
+          offset={26}
+          className="w-full max-w-md overflow-hidden rounded-[1rem] border border-slate-200 bg-white shadow-2xl shadow-slate-950/[0.12]"
+        >
+          <div className="flex h-9 items-center justify-between border-b border-slate-200 bg-slate-50 px-4">
+            <div className="flex gap-1.5">
+              <span className="h-2.5 w-2.5 rounded-full bg-red-400" />
+              <span className="h-2.5 w-2.5 rounded-full bg-yellow-400" />
+              <span className="h-2.5 w-2.5 rounded-full bg-green-400" />
+            </div>
+            <span className="text-[10px] font-medium text-slate-400">
+              {project.repository}
+            </span>
+          </div>
+          <div className="flex min-h-40 items-center justify-center p-8">
+            <Image
+              src={project.logoImage}
+              alt={`Logo do projeto ${project.name}`}
+              width={220}
+              height={220}
+              className="max-h-28 w-auto object-contain"
+              unoptimized
+            />
+          </div>
+        </ParallaxLayer>
+      </div>
+    )
+  }
+
+  return (
+    <div
+      className={`flex h-full items-center justify-center p-6 ${project.coverClass || 'bg-slate-50'}`}
+    >
+      <div className="rounded-[1rem] border border-slate-200 bg-white px-6 py-5 text-center shadow-lg shadow-slate-950/[0.08]">
+        <p className="text-xl font-semibold tracking-tight text-slate-950">
+          {project.logoText || project.name}
+        </p>
+      </div>
+    </div>
+  )
+}
 
 function LinkIcon(props) {
   return (
@@ -88,7 +216,7 @@ function LinkIcon(props) {
   )
 }
 
-export default function Projects() {
+export default function Projects({ projects }) {
   return (
     <>
       <Head>
@@ -103,41 +231,47 @@ export default function Projects() {
         intro="Uma seleção de produtos em que atuei do planejamento à entrega, conectando objetivos de negócio, experiência e engenharia."
       >
         <ul role="list" className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          {projects.map((project) => {
+          {projects.map((project, index) => {
             const isNew = isNewProject(project.addedAt)
+            const isFeatured = project.featured
 
             return (
-              <li key={project.name} className="h-full">
-                <Card>
-                  <div className="relative mb-6 aspect-[16/9] overflow-hidden rounded-2xl border border-slate-200 bg-slate-950">
-                    {isNew ? (
-                      <Badge className="absolute left-3 top-3 z-10 border-emerald-200 bg-emerald-500 px-3 py-1 text-[10px] tracking-[0.16em] text-white shadow-sm">
-                        Novo
-                      </Badge>
-                    ) : null}
-                    {project.image ? (
-                      <Image
-                        src={project.image}
-                        alt={`Capa do projeto ${project.name}`}
-                        fill
-                        className="object-cover"
-                        sizes="(min-width: 768px) 50vw, 100vw"
-                      />
-                    ) : (
-                      <div className="flex h-full items-center justify-center bg-[radial-gradient(circle_at_top,_rgba(34,197,94,0.2),_transparent_55%)] p-10">
-                        <Image
-                          src={project.logo}
-                          alt={`Logo do projeto ${project.name}`}
-                          className="max-h-24 w-auto rounded-2xl bg-white p-4 shadow-lg"
-                          unoptimized
-                        />
-                      </div>
-                    )}
-                  </div>
+              <Reveal
+                key={project.name}
+                as="li"
+                delay={index * 0.05}
+                className={isFeatured ? 'h-full md:col-span-2' : 'h-full'}
+              >
+                <Card className={isFeatured ? 'md:p-8' : undefined}>
+                  {project.logoImage || project.logoText ? (
+                    <div
+                      className={
+                        isFeatured
+                          ? 'relative mb-8 aspect-[21/9] overflow-hidden rounded-[1rem] border border-slate-200 bg-slate-50'
+                          : 'relative mb-6 aspect-[16/9] overflow-hidden rounded-[1rem] border border-slate-200 bg-slate-50'
+                      }
+                    >
+                      {isNew ? (
+                        <Badge className="absolute left-3 top-3 z-10 border-emerald-200 bg-emerald-500 px-3 py-1 text-[10px] tracking-[0.16em] text-white shadow-sm">
+                          Novo
+                        </Badge>
+                      ) : null}
+                      <ProjectCover project={project} />
+                    </div>
+                  ) : isNew ? (
+                    <Badge className="mb-4 w-fit border-emerald-200 bg-emerald-500 px-3 py-1 text-[10px] tracking-[0.16em] text-white shadow-sm">
+                      Novo
+                    </Badge>
+                  ) : null}
                   <div className="flex items-center gap-4">
                     <div>
                       <div className="flex flex-wrap items-center gap-3">
                         <Card.Title>{project.name}</Card.Title>
+                        {isFeatured ? (
+                          <Badge className="border-blue-200 bg-blue-50 px-3 py-1 text-[10px] tracking-[0.16em] text-blue-700">
+                            Destaque
+                          </Badge>
+                        ) : null}
                       </div>
                       <Card.Eyebrow className="mt-1 text-[10px] text-blue-700">
                         {project.role}
@@ -156,31 +290,96 @@ export default function Projects() {
                       </li>
                     ))}
                   </ul>
-                  <div className="mt-6 flex flex-wrap gap-2 text-[10px] uppercase tracking-[0.2em] text-blue-700">
+                  <div className="mt-6 flex flex-wrap gap-2 text-[10px] uppercase tracking-[0.18em] text-slate-600">
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="rounded-full border border-blue-200 bg-blue-50 px-3 py-1"
+                        className="rounded-full border border-slate-200 bg-slate-50 px-3 py-1"
                       >
                         {tag}
                       </span>
                     ))}
                   </div>
+                  {project.github ? (
+                    <dl className="mt-6 grid grid-cols-3 gap-3 text-xs">
+                      <div className="rounded-2xl border border-slate-100 bg-slate-50 px-3 py-3">
+                        <dt className="text-slate-500">Linguagem</dt>
+                        <dd className="mt-1 font-semibold text-slate-950">
+                          {project.github.language || 'N/A'}
+                        </dd>
+                      </div>
+                      <div className="rounded-2xl border border-slate-100 bg-slate-50 px-3 py-3">
+                        <dt className="text-slate-500">Stars</dt>
+                        <dd className="mt-1 font-semibold text-slate-950">
+                          {project.github.stars}
+                        </dd>
+                      </div>
+                      <div className="rounded-2xl border border-slate-100 bg-slate-50 px-3 py-3">
+                        <dt className="text-slate-500">Update</dt>
+                        <dd className="mt-1 font-semibold text-slate-950">
+                          {formatDate(project.github.updatedAt)}
+                        </dd>
+                      </div>
+                    </dl>
+                  ) : null}
                   <a
                     href={project.link.href}
                     target="_blank"
                     rel="noreferrer"
-                    className="mt-8 inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-blue-600 transition hover:text-blue-800"
+                    className="mt-8 inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.22em] text-blue-700 transition hover:text-blue-900"
                   >
                     <LinkIcon className="h-4 w-4" />
                     {project.link.label}
                   </a>
+                  {project.github?.url &&
+                  project.github.url !== project.link.href ? (
+                    <a
+                      href={project.github.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-4 inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.22em] text-slate-500 transition hover:text-blue-700"
+                    >
+                      <LinkIcon className="h-4 w-4" />
+                      Repositório
+                    </a>
+                  ) : null}
                 </Card>
-              </li>
+              </Reveal>
             )
           })}
         </ul>
       </SimpleLayout>
     </>
   )
+}
+
+export async function getServerSideProps({ res }) {
+  setSsrCache(res)
+
+  const [repositories, vercelProjects] = await Promise.all([
+    getGitHubRepositoryMap(curatedProjects.map((project) => project.repository)),
+    getVercelProjectMap(curatedProjects.map((project) => project.vercelProject)),
+  ])
+
+  return {
+    props: {
+      projects: curatedProjects.map((project) => {
+        const github = repositories[project.repository] || null
+        const vercel = vercelProjects[project.vercelProject] || null
+        const liveUrl = vercel?.url || github?.homepage
+
+        return {
+          ...project,
+          github,
+          vercel,
+          link: liveUrl
+            ? {
+                href: liveUrl,
+                label: 'Ver projeto',
+              }
+            : project.link,
+        }
+      }),
+    },
+  }
 }

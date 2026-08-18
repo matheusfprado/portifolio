@@ -2,6 +2,8 @@ import Head from 'next/head'
 
 import { Card } from '@/components/Card'
 import { SimpleLayout } from '@/components/SimpleLayout'
+import { Reveal } from '@/components/Motion'
+import { setSsrCache } from '@/lib/cache'
 import { formatDate } from '@/lib/formatDate'
 import { getAllArticles } from '@/lib/getAllArticles'
 
@@ -45,8 +47,10 @@ export default function ArticlesIndex({ articles }) {
         intro="Compartilho experiências sobre arquitetura frontend, back-end escalável e o que aprendo construindo produtos digitais."
       >
         <div className="flex max-w-3xl flex-col space-y-12">
-          {articles.map((article) => (
-            <Article key={article.slug} article={article} />
+          {articles.map((article, index) => (
+            <Reveal key={article.slug} delay={index * 0.05}>
+              <Article article={article} />
+            </Reveal>
           ))}
         </div>
       </SimpleLayout>
@@ -54,7 +58,9 @@ export default function ArticlesIndex({ articles }) {
   )
 }
 
-export async function getStaticProps() {
+export async function getServerSideProps({ res }) {
+  setSsrCache(res)
+
   return {
     props: {
       articles: (await getAllArticles()).map(({ component, ...meta }) => meta),

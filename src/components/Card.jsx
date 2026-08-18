@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import clsx from 'clsx'
+import { motion, useReducedMotion } from 'framer-motion'
 
 function ChevronRightIcon(props) {
   return (
@@ -15,15 +16,20 @@ function ChevronRightIcon(props) {
 }
 
 export function Card({ className, children }) {
+  const reduceMotion = useReducedMotion()
+
   return (
-    <div
+    <motion.div
+      whileHover={reduceMotion ? undefined : { y: -6 }}
+      whileTap={reduceMotion ? undefined : { scale: 0.99 }}
+      transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
       className={clsx(
-        'group h-full rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-shadow duration-200 hover:shadow-md',
+        'group h-full rounded-[1.25rem] border border-slate-200/80 bg-white/90 p-6 shadow-sm shadow-slate-950/[0.04] backdrop-blur transition-colors duration-200 hover:border-slate-300 hover:bg-white hover:shadow-xl hover:shadow-slate-950/[0.08]',
         className
       )}
     >
       <div className="flex h-full flex-col text-slate-700">{children}</div>
-    </div>
+    </motion.div>
   )
 }
 
@@ -32,7 +38,7 @@ Card.Link = function CardLink({ children, className, ...props }) {
     <Link
       {...props}
       className={clsx(
-        'relative z-10 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.35em] text-blue-600 transition hover:text-blue-800',
+        'relative z-10 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-blue-700 transition hover:text-blue-900',
         className
       )}
     >
@@ -51,7 +57,7 @@ Card.Title = function CardTitle({
   const title = (
     <Component
       className={clsx(
-        'text-xl font-semibold leading-tight text-slate-900',
+        'text-xl font-semibold leading-tight text-slate-950',
         className
       )}
     >
@@ -66,13 +72,13 @@ Card.Title = function CardTitle({
   return (
     <Component
       className={clsx(
-        'text-xl font-semibold leading-tight text-slate-900',
+        'text-xl font-semibold leading-tight text-slate-950',
         className
       )}
     >
       <Link
         href={href}
-        className="relative z-10 transition hover:text-blue-600"
+        className="relative z-10 transition hover:text-blue-700"
       >
         {children}
       </Link>
@@ -82,9 +88,7 @@ Card.Title = function CardTitle({
 
 Card.Description = function CardDescription({ children, className }) {
   return (
-    <p
-      className={clsx('mt-4 text-sm leading-relaxed text-slate-600', className)}
-    >
+    <p className={clsx('mt-4 text-sm leading-relaxed text-slate-600', className)}>
       {children}
     </p>
   )
@@ -94,7 +98,7 @@ Card.Skills = function CardSkills({ children, className }) {
   return (
     <p
       className={clsx(
-        'mt-4 text-xs uppercase tracking-[0.35em] text-blue-600',
+        'mt-4 text-xs uppercase tracking-[0.25em] text-blue-700',
         className
       )}
     >
@@ -107,7 +111,7 @@ Card.Cta = function CardCta({ children, className }) {
   return (
     <div
       className={clsx(
-        'mt-6 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.4em] text-blue-600 transition group-hover:text-blue-800',
+        'mt-6 inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.25em] text-blue-700 transition group-hover:text-blue-900',
         className
       )}
     >
@@ -127,7 +131,7 @@ Card.Eyebrow = function CardEyebrow({
   return (
     <Component
       className={clsx(
-        'flex items-center text-xs uppercase tracking-[0.4em] text-blue-600',
+        'flex items-center text-xs uppercase tracking-[0.25em] text-blue-700',
         className
       )}
       {...props}
@@ -135,7 +139,7 @@ Card.Eyebrow = function CardEyebrow({
       {decorate && (
         <span
           aria-hidden="true"
-          className="mr-3 inline-flex h-1.5 w-1.5 rounded-full bg-blue-500"
+          className="mr-3 inline-flex h-1.5 w-1.5 rounded-full bg-blue-600"
         />
       )}
       {children}

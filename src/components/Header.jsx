@@ -44,7 +44,7 @@ function CloseIcon(props) {
 function MobileNavigation() {
   return (
     <Popover className="relative text-slate-900 md:hidden">
-      <Popover.Button className="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium shadow-sm transition hover:border-slate-300 hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white">
+      <Popover.Button className="inline-flex min-h-[44px] items-center gap-2 rounded-full border border-slate-200 bg-white/85 px-4 py-2 text-sm font-medium shadow-sm shadow-slate-950/[0.03] backdrop-blur transition hover:border-slate-300 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-400 focus-visible:ring-offset-2 focus-visible:ring-offset-white">
         Menu
         <MenuIcon className="h-5 w-5 text-slate-700" />
       </Popover.Button>
@@ -58,7 +58,7 @@ function MobileNavigation() {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Popover.Overlay className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm" />
+          <Popover.Overlay className="fixed inset-0 z-40 bg-slate-950/20 backdrop-blur-sm" />
         </Transition.Child>
         <Transition.Child
           as={Fragment}
@@ -69,7 +69,7 @@ function MobileNavigation() {
           leaveFrom="opacity-100 translate-y-0"
           leaveTo="opacity-0 -translate-y-4"
         >
-          <Popover.Panel className="fixed inset-x-6 top-20 z-50 rounded-2xl border border-slate-200 bg-white p-6 shadow-xl">
+          <Popover.Panel className="fixed inset-x-6 top-20 z-50 rounded-[1.25rem] border border-slate-200 bg-white p-6 shadow-xl shadow-slate-950/10">
             <div className="flex items-center justify-between">
               <span className="text-sm font-medium uppercase tracking-[0.2em] text-slate-500">
                 Navegação
@@ -87,7 +87,7 @@ function MobileNavigation() {
                   key={item.href}
                   as={Link}
                   href={item.href}
-                  className="block rounded-xl border border-slate-200 bg-white px-4 py-3 text-base font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-950"
+                  className="block rounded-2xl border border-slate-200 bg-white px-4 py-3 text-base font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-950"
                 >
                   {item.label}
                 </Popover.Button>
@@ -104,11 +104,11 @@ export function Header() {
   const router = useRouter()
 
   return (
-    <header className="relative z-50 border-b border-slate-200 bg-slate-50/90 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-white/75 backdrop-blur-xl">
       <Container>
         <div className="flex items-center justify-between py-4">
           <Link href="/" className="flex items-center gap-4">
-            <span className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white p-[2px]">
+            <span className="relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white p-[2px] shadow-sm shadow-slate-950/[0.03]">
               <Image
                 src={avatarImage}
                 alt="Matheus Prado"
@@ -126,30 +126,25 @@ export function Header() {
               </span>
             </div>
           </Link>
-          <nav className="hidden items-center gap-7 text-sm font-medium text-slate-600 md:flex">
+          <nav className="hidden items-center gap-2 rounded-full border border-slate-200/80 bg-white/75 p-1 text-sm font-medium text-slate-600 shadow-sm shadow-slate-950/[0.03] md:flex">
             {navigation.map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
                 className={clsx(
-                  'relative transition hover:text-slate-950',
-                  router.pathname === item.href && 'text-slate-950'
+                  'relative rounded-full px-4 py-2 transition hover:bg-slate-50 hover:text-slate-950',
+                  router.pathname === item.href &&
+                    'bg-slate-950 text-white hover:bg-slate-950 hover:text-white'
                 )}
               >
                 <span>{item.label}</span>
-                <span
-                  className={clsx(
-                    'pointer-events-none absolute inset-x-0 -bottom-2 h-0.5 origin-center scale-x-0 rounded-full bg-slate-900 transition-transform duration-200',
-                    router.pathname === item.href ? 'scale-x-100' : ''
-                  )}
-                />
               </Link>
             ))}
           </nav>
           <div className="flex items-center gap-3">
             <Button
               href="https://api.whatsapp.com/send?phone=5516996356302"
-              className="hidden px-6 text-sm font-semibold uppercase tracking-[0.3em] md:inline-flex"
+              className="hidden px-6 text-sm font-semibold md:inline-flex"
             >
               Contato
             </Button>

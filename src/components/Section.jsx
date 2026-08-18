@@ -6,12 +6,12 @@ export function Section({ title, children }) {
   return (
     <section
       aria-labelledby={id}
-      className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm sm:p-10"
+      className="rounded-[1.25rem] border border-slate-200/80 bg-white/90 p-8 shadow-sm shadow-slate-950/[0.04] backdrop-blur sm:p-10"
     >
       <div>
         <h2
           id={id}
-          className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-700"
+          className="text-xs font-semibold uppercase tracking-[0.22em] text-blue-700"
         >
           {title}
         </h2>

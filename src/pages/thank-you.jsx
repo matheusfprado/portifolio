@@ -1,6 +1,7 @@
 import Head from 'next/head'
 
 import { SimpleLayout } from '@/components/SimpleLayout'
+import { setSsrCache } from '@/lib/cache'
 
 export default function ThankYou() {
   return (
@@ -18,4 +19,12 @@ export default function ThankYou() {
       />
     </>
   )
+}
+
+export function getServerSideProps({ res }) {
+  setSsrCache(res)
+
+  return {
+    props: {},
+  }
 }

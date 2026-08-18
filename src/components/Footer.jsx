@@ -10,15 +10,15 @@ export function Footer() {
   ]
 
   return (
-    <footer className="relative z-10 mt-24 border-t border-slate-200 py-10">
+    <footer className="relative z-10 mt-20 border-t border-slate-200/80 py-10">
       <Container>
         <div className="px-4 sm:px-8">
           <div className="flex flex-col gap-8 text-slate-600 md:flex-row md:items-center md:justify-between">
             <div>
-              <span className="text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
+              <span className="text-xs font-medium uppercase tracking-[0.2em] text-blue-700">
                 vamos construir algo
               </span>
-              <p className="mt-3 text-2xl font-semibold text-slate-900">
+              <p className="mt-3 text-xl font-semibold text-slate-900">
                 &copy; {new Date().getFullYear()} Matheus Prado
               </p>
             </div>
