@@ -2,6 +2,20 @@
 
 Portfólio pessoal em Next.js, React, Tailwind CSS e componentes shadcn/ui.
 
+## Preview
+
+### Início
+
+![Página inicial](public/screenshots/home.png)
+
+### Experiência
+
+![Experiências profissionais](public/screenshots/experience.png)
+
+### Projetos
+
+![Projetos](public/screenshots/projects.png)
+
 ## Rodar
 
 ```bash

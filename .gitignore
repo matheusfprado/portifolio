@@ -14,10 +14,13 @@
 
 # production
 /build
+/apps/*/dist/
+/packages/*/dist/
 
 # misc
 .DS_Store
 *.pem
+*.tsbuildinfo
 
 # debug
 npm-debug.log*
@@ -26,6 +29,10 @@ yarn-error.log*
 .pnpm-debug.log*
 
 # local env files
+.env
+.env.*
+!.env.example
+!apps/*/.env.example
 .env*.local
 
 # vercel
@@ -33,3 +40,6 @@ yarn-error.log*
 
 # generated files
 /public/rss/
+/data/experiences.json
+/data/linkedin-token.json
+/apps/profile-sync/data/linkedin-token.json
