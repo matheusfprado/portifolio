@@ -4,8 +4,10 @@ import { Fragment, useRef, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
 import {
   motion,
+  useMotionValue,
   useReducedMotion,
   useScroll,
+  useSpring,
   useTransform,
 } from 'framer-motion'
 import Head from 'next/head'
@@ -343,11 +345,26 @@ function StackModal({ stack, onClose }) {
 function ShowcaseFrame() {
   const frameRef = useRef(null)
   const reduceMotion = useReducedMotion()
+  const rotateX = useSpring(useMotionValue(0), {
+    stiffness: 180,
+    damping: 22,
+    mass: 0.6,
+  })
+  const rotateY = useSpring(useMotionValue(0), {
+    stiffness: 180,
+    damping: 22,
+    mass: 0.6,
+  })
 
   function handlePointerMove(event) {
     if (reduceMotion || !frameRef.current) return
 
     const rect = frameRef.current.getBoundingClientRect()
+    const pointerX = (event.clientX - rect.left) / rect.width - 0.5
+    const pointerY = (event.clientY - rect.top) / rect.height - 0.5
+
+    rotateX.set(pointerY * -7)
+    rotateY.set(pointerX * 9)
     frameRef.current.style.setProperty(
       '--glow-x',
       `${event.clientX - rect.left}px`
@@ -361,6 +378,8 @@ function ShowcaseFrame() {
   function handlePointerLeave() {
     if (!frameRef.current) return
 
+    rotateX.set(0)
+    rotateY.set(0)
     frameRef.current.style.setProperty('--glow-x', '50%')
     frameRef.current.style.setProperty('--glow-y', '30%')
   }
@@ -401,11 +420,16 @@ function ShowcaseFrame() {
         </motion.div>
       ))}
 
-      <div
+      <motion.div
         ref={frameRef}
         onPointerMove={handlePointerMove}
         onPointerLeave={handlePointerLeave}
-        className="relative w-[82%] overflow-hidden rounded-[28px] border border-slate-300 bg-white shadow-2xl shadow-slate-950/15"
+        style={
+          reduceMotion
+            ? undefined
+            : { rotateX, rotateY, transformPerspective: 1200 }
+        }
+        className="relative w-[82%] overflow-hidden rounded-[28px] border border-slate-300 bg-white shadow-2xl shadow-slate-950/15 will-change-transform"
       >
         <div className="pointer-events-none absolute inset-0 z-10 bg-[radial-gradient(circle_at_var(--glow-x,50%)_var(--glow-y,30%),rgba(37,99,235,0.18),transparent_34%)]" />
         <div className="flex h-11 items-center justify-between border-b border-slate-200 bg-[#f7f7f5] px-5">
@@ -469,7 +493,7 @@ function ShowcaseFrame() {
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
     </motion.div>
   )
 }

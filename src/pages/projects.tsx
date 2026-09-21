@@ -162,10 +162,14 @@ function formatDate(date) {
 function ProjectCover({ project }) {
   if (project.logoImage) {
     return (
-      <div className={`flex h-full items-center justify-center p-6 ${project.coverClass || 'bg-slate-50'}`}>
+      <div className={`group relative flex h-full items-center justify-center overflow-hidden p-6 ${project.coverClass || 'bg-slate-50'}`}>
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -inset-1/2 translate-x-[-35%] rotate-12 bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-0 transition duration-700 group-hover:translate-x-[35%] group-hover:opacity-100"
+        />
         <ParallaxLayer
           offset={26}
-          className="w-full max-w-md overflow-hidden rounded-[1rem] border border-slate-200 bg-white shadow-2xl shadow-slate-950/[0.12]"
+          className="relative w-full max-w-md overflow-hidden rounded-[1rem] border border-slate-200 bg-white shadow-2xl shadow-slate-950/[0.12] transition duration-500 will-change-transform group-hover:-translate-y-1 group-hover:rotate-1 group-hover:scale-[1.035]"
         >
           <div className="flex h-9 items-center justify-between border-b border-slate-200 bg-slate-50 px-4">
             <div className="flex gap-1.5">
@@ -193,9 +197,13 @@ function ProjectCover({ project }) {
 
   return (
     <div
-      className={`flex h-full items-center justify-center p-6 ${project.coverClass || 'bg-slate-50'}`}
+      className={`group relative flex h-full items-center justify-center overflow-hidden p-6 ${project.coverClass || 'bg-slate-50'}`}
     >
-      <div className="rounded-[1rem] border border-slate-200 bg-white px-6 py-5 text-center shadow-lg shadow-slate-950/[0.08]">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute -inset-1/2 translate-x-[-35%] rotate-12 bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-0 transition duration-700 group-hover:translate-x-[35%] group-hover:opacity-100"
+      />
+      <div className="relative rounded-[1rem] border border-slate-200 bg-white px-6 py-5 text-center shadow-lg shadow-slate-950/[0.08] transition duration-500 group-hover:-translate-y-1 group-hover:rotate-1 group-hover:scale-105">
         <p className="text-xl font-semibold tracking-tight text-slate-950">
           {project.logoText || project.name}
         </p>
